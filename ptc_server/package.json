@@ -30,7 +30,5 @@
     "eslint": "^3.2.2",
     "mocha": "^3.0.1"
   },
-  "dependencies": {
-    "immutable": "^3.8.1"
-  }
+  "dependencies": {}
 }
