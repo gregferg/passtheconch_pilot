@@ -1,22 +1,21 @@
 import {expect} from 'chai';
-import {List, Map} from 'immutable';
 
-import {validate} from '../src/actions/actionValidator.js';
+import validate from '../src/actions/actionValidator.js';
 
 describe('actionValidator', () => {
   describe('User Validations', () => {
     it('validates a correct new session action', () => {
       let action = {type: "newSession"};
-      let valid = validate({},action);
+      let response = validate({},action);
 
-      expect(valid).to.be.true;
+      expect(response.valid).to.be.true;
     });
 
     it('validates a wrong new session action', () => {
       let action = {type: "neswSession"};
-      let valid = validate({},action);
+      let response = validate({},action);
 
-      expect(valid).to.be.false;
+      expect(response.valid).to.be.false;
     });
   });
 
@@ -29,9 +28,9 @@ describe('actionValidator', () => {
             "h12jklwelkjc":{}
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.true;
+        expect(response.valid).to.be.true;
       });
 
       it('Does not allows a new story action if no matching user exists', () => {
@@ -41,9 +40,9 @@ describe('actionValidator', () => {
             "h12jddcewklwelkjc":{}
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.false;
+        expect(response.valid).to.be.false;
       });
 
       it('allows a new story action if user does not have a currentStory', () => {
@@ -54,9 +53,9 @@ describe('actionValidator', () => {
           }
         };
 
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.true;
+        expect(response.valid).to.be.true;
       });
 
       it('disallows a new story action if user has a currentStory', () => {
@@ -72,9 +71,9 @@ describe('actionValidator', () => {
           }
         };
 
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.false;
+        expect(response.valid).to.be.false;
       });
     });
 
@@ -95,9 +94,9 @@ describe('actionValidator', () => {
             1: ['what up dawg', 'not much homie'],
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.false;
+        expect(response.valid).to.be.false;
       });
 
       it('fails if no such story exists', () => {
@@ -116,9 +115,9 @@ describe('actionValidator', () => {
             34: ['what up dawg', 'not much homie'],
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.false;
+        expect(response.valid).to.be.false;
       });
 
       it('does not allow an user to update a story when its not their turn', () => {
@@ -137,9 +136,30 @@ describe('actionValidator', () => {
             1: ['what up dawg', 'not much homie'],
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.false;
+        expect(response.valid).to.be.false;
+      });
+
+      it('does not allow a sentence more than 100 characters', () => {
+        let action = {
+          type: "updateStory",
+          user: "bob",
+          storyId: 1,
+          sentence: '123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789'
+        };
+        let state = {
+          users: {
+            "bob":{currentStory: {id: 1, turn: true}},
+            "other":{currentStory: {id: 1, turn: false}},
+          },
+          stories: {
+            1: ['what up dawg', 'not much homie'],
+          }
+        };
+        let response = validate(state, action);
+
+        expect(response.valid).to.be.false;
       });
 
       it('validates a correct request', () => {
@@ -158,9 +178,9 @@ describe('actionValidator', () => {
             1: ['what up dawg', 'not much homie'],
           }
         };
-        let valid = validate(state, action);
+        let response = validate(state, action);
 
-        expect(valid).to.be.true;
+        expect(response.valid).to.be.true;
       });
     });
   });

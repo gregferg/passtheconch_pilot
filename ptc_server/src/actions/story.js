@@ -4,14 +4,14 @@ function incrementStoryCounter(state) {
   return Object.assign({}, state, {storyCounter: state.storyCounter + 1});
 }
 
-export function createStory(state, users) {
+export function createStory(state, action) {
   const storyCounter = state.storyCounter + 1;
 
-  const userOne = users[0];
-  const userTwo = users[1];
+  const userOne = action.users[0];
+  const userTwo = action.users[1];
 
   const updatedStories = Object.assign({}, state.stories, {
-    [storyCounter]: []
+    [storyCounter]: { users: [userOne, userTwo], story: [] }
   });
 
   const updatedUsers = Object.assign({}, state.users, {
@@ -33,16 +33,31 @@ export function createStory(state, users) {
 export function updateStory(state, action) {
   const storyId = action.storyId;
   const sentence = action.sentence;
-
   const newState = Object.assign({}, state);
 
-  newState.stories[storyId].push(sentence);
+  newState.stories[storyId].story.push(sentence);
+
+  const userOne = newState.stories[storyId].users[0];
+  const userTwo = newState.stories[storyId].users[1];
+
+  const userOneTurn = newState.users[userOne].currentStory.turn;
+  newState.users[userOne].currentStory.turn = !userOneTurn;
+  newState.users[userTwo].currentStory.turn = userOneTurn;
 
   return newState;
 }
 
-function validateTurn(state, userHashID) {
-  const story = state.users[userHashID].currentStory;
 
-  return story ? story.usersTurn: false;
+export function removeStory(state, action) {
+  const newState = Object.assign({}, state);
+
+  const storyId = action.storyId;
+  const userOne = newState.stories[storyId].users[0];
+  const userTwo = newState.stories[storyId].users[1];
+
+  delete newState.stories[storyId];
+  delete newState.users[userOne].currentStory;
+  delete newState.users[userTwo].currentStory;
+
+  return newState;
 }

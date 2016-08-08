@@ -1,5 +1,3 @@
-import {expect} from 'chai';
-
 
 const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -12,20 +10,24 @@ function randomStringID() {
     return randomString;
 }
 
-export function createSession(state) {
+export function createUniqueRandomStringID(state) {
   var newSessionId = randomStringID();
-  while (!(state.users[newSessionId] === undefined)) {
+  while (state.users[newSessionId] !== undefined) {
     newSessionId = randomStringID();
   }
-  const users = Object.assign({}, state.users, {[newSessionId]: {}});
+  return newSessionId;
+}
+
+export function createSession(state, action) {
+  const users = Object.assign({}, state.users, {[action.id]: {}});
 
   return Object.assign({}, state, {users: users});
 }
 
-export function removeSession(state, user) {
+export function removeSession(state, action) {
 
   const users = Object.assign({}, state.users);
-  delete users[user];
+  delete users[action.user];
 
   return Object.assign({}, state, {users: users});
 }

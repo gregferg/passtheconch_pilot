@@ -1,14 +1,14 @@
 import {expect} from 'chai';
 
-import {createStory, updateStory, deleteStory} from '../src/actions/story.js';
+import {createStory, updateStory, removeStory} from '../src/actions/story.js';
 
 
 describe('Story Logic', () => {
   describe('createStory', () => {
     it('increases the story counter', () => {
       let state = {'storyCounter': 0};
-      let users = ['h12jklwelkjc', 'c'];
-      let nextState = createStory(state, users);
+      let action = { users: ['h12jklwelkjc', 'c'] };
+      let nextState = createStory(state, action);
 
 
       expect(nextState.storyCounter).to.equal(1);
@@ -16,18 +16,18 @@ describe('Story Logic', () => {
 
     it('adds a story to the state', () => {
       let state = {'storyCounter': 0};
-      let users = ['h12jklwelkjc', 'c'];
-      let nextState = createStory(state, users);
+      let action = { users: ['h12jklwelkjc', 'c'] };
+      let nextState = createStory(state, action);
 
       expect(nextState.stories).to.deep.equal(
-        {1: []}
+        {1: { users: ['h12jklwelkjc', 'c'], story: [] } }
       );
     });
 
     it('adds storyID to each users currentStory', () => {
       let state = {'storyCounter': 0, users: {"h12jklwelkjc":{}, "c":{}}};
-      let users = ['h12jklwelkjc', 'c'];
-      let nextState = createStory(state, users);
+      let action = { users: ['h12jklwelkjc', 'c'] };
+      let nextState = createStory(state, action);
 
       expect(nextState.users).to.deep.equal(
         {
@@ -52,8 +52,8 @@ describe('Story Logic', () => {
           5: []
         }
       };
-      let users = ['h12jklwelkjc', 'c'];
-      let nextState = createStory(state, users);
+      let action = { users: ['h12jklwelkjc', 'c'] };
+      let nextState = createStory(state, action);
 
       expect(nextState).to.deep.equal(
         {
@@ -68,7 +68,7 @@ describe('Story Logic', () => {
             1: [],
             2: [],
             5: [],
-            9: [],
+            9: { users: ['h12jklwelkjc', 'c'], story: [] }
           }
         }
       );
@@ -84,7 +84,7 @@ describe('Story Logic', () => {
           "goodbye":{currentStory: {id: 1, turn: true}},
         },
         stories: {
-          1: [],
+          1: { users: ['hello', 'goodbye'], story: [] },
         }
       };
       let action = {
@@ -94,7 +94,7 @@ describe('Story Logic', () => {
       };
       let nextState = updateStory(state, action);
 
-      expect(nextState.stories[1]).to.deep.equal(['oh god']);
+      expect(nextState.stories[1].story).to.deep.equal(['oh god']);
     });
 
     it('updates the story more!', () => {
@@ -104,7 +104,7 @@ describe('Story Logic', () => {
           "goodbye":{currentStory: {id: 1, turn: true}},
         },
         stories: {
-          1: ['what up dawg', 'not much homie'],
+          1: { users: ['hello', 'goodbye'], story: ['what up dawg', 'not much homie'] },
         }
       };
       let action = {
@@ -114,7 +114,74 @@ describe('Story Logic', () => {
       };
       let nextState = updateStory(state, action);
 
-      expect(nextState.stories[1]).to.deep.equal(['what up dawg', 'not much homie','oh god']);
+      expect(nextState.stories[1].story).to.deep.equal(['what up dawg', 'not much homie','oh god']);
+    });
+
+    it('Switches User\'s turns', () => {
+      let state = {
+        users: {
+          "hello":{currentStory: {id: 1, turn: true}},
+          "goodbye":{currentStory: {id: 1, turn: false}},
+        },
+        stories: {
+          1: { users: ['hello', 'goodbye'], story: [] },
+        }
+      };
+      let action = {
+        user: 'hello',
+        sentence: 'oh god',
+        storyId: 1
+      };
+      let nextState = updateStory(state, action);
+
+      expect(nextState.users).to.deep.equal({
+        "hello":{currentStory: {id: 1, turn: false}},
+        "goodbye":{currentStory: {id: 1, turn: true}},
+      });
+    });
+  });
+
+  describe('Remove Story', () => {
+    it('removes the story', () => {
+      let state = {
+        'storyCounter': 1,
+        users: {
+          "hello":{currentStory: {id: 1, turn: false}},
+          "goodbye":{currentStory: {id: 1, turn: true}},
+        },
+        stories: {
+          1: { users: ['hello', 'goodbye'], story: [] },
+        }
+      };
+      let action = {
+        type: 'removeStory',
+        storyId: 1
+      };
+      let nextState = removeStory(state, action);
+
+      expect(nextState.stories).to.deep.equal({});
+    });
+
+    it('removes currentStory from both users', () => {
+      let state = {
+        users: {
+          "hello":{currentStory: {id: 1, turn: false}},
+          "goodbye":{currentStory: {id: 1, turn: true}},
+        },
+        stories: {
+          1: { users: ['hello', 'goodbye'], story: [] },
+        }
+      };
+      let action = {
+        type: 'removeStory',
+        storyId: 1
+      };
+      let nextState = removeStory(state, action);
+
+      expect(nextState.users).to.deep.equal({
+          "hello":{},
+          "goodbye":{}
+      });
     });
   });
 });
