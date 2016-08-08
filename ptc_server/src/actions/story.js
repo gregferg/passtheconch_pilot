@@ -5,26 +5,27 @@ function incrementStoryCounter(state) {
 }
 
 export function createStory(state, action) {
+
+  const updatedState = Object.assign({}, state);
+
   const storyCounter = state.storyCounter + 1;
 
   const userOne = action.users[0];
   const userTwo = action.users[1];
 
-  const updatedStories = Object.assign({}, state.stories, {
-    [storyCounter]: { users: [userOne, userTwo], story: [] }
-  });
+  console.log(updatedState);
+  updatedState.stories[storyCounter] = { users: [userOne, userTwo], story: [] }
 
-  const updatedUsers = Object.assign({}, state.users, {
-    [userOne]: {currentStory: {id: storyCounter, turn: false}},
-    [userTwo]: {currentStory: {id: storyCounter, turn: true}}
-  });
+  updatedState.users[userOne] = {currentStory: {id: storyCounter, turn: false}}
+  updatedState.users[userTwo] = {currentStory: {id: storyCounter, turn: true}}
 
-  var updatedState = Object.assign({}, state, {
-      storyCounter: state.storyCounter + 1,
-      stories: updatedStories,
-      users: updatedUsers
-    }
-  );
+  updatedState.storyCounter = storyCounter
+  // var updatedState = Object.assign({}, state, {
+  //     storyCounter: state.storyCounter + 1,
+  //     stories: updatedStories,
+  //     users: updatedUsers
+  //   }
+  // );
 
 
   return updatedState;

@@ -2,15 +2,18 @@
 import reducer from './reducer';
 
 export default function makeStore(reducer) {
-  function store() {
-    this.state = STORE_INTIAL_STATE;
-    this.reducer = reducer;
+
+  const store = {
+    state: STORE_INTIAL_STATE,
+    reducer: reducer,
+    updateStore: function(action) {
+      this.state = this.reducer(this.state, action);
+    }
   }
+  
+  return store;
 }
 
-store.updateStore(action) {
-  this.state = this.reducer(this.state, action);
-}
 
 
 export const STORE_INTIAL_STATE = {

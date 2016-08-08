@@ -1,5 +1,5 @@
-import {createSession, removeSession} from './actions.session.js';
-import {createStory, updateStory, removeStory} from './actions.story.js';
+import {createSession, removeSession} from './actions/session.js';
+import {createStory, updateStory, removeStory} from './actions/story.js';
 
 
 export default function reducer(state, action) {

@@ -6,7 +6,7 @@ import {createStory, updateStory, removeStory} from '../src/actions/story.js';
 describe('Story Logic', () => {
   describe('createStory', () => {
     it('increases the story counter', () => {
-      let state = {'storyCounter': 0};
+      let state = {'storyCounter': 0, stories: {}, users: {}};
       let action = { users: ['h12jklwelkjc', 'c'] };
       let nextState = createStory(state, action);
 
@@ -15,7 +15,7 @@ describe('Story Logic', () => {
     });
 
     it('adds a story to the state', () => {
-      let state = {'storyCounter': 0};
+      let state = {'storyCounter': 0, stories: {}, users: {}};
       let action = { users: ['h12jklwelkjc', 'c'] };
       let nextState = createStory(state, action);
 
@@ -25,7 +25,7 @@ describe('Story Logic', () => {
     });
 
     it('adds storyID to each users currentStory', () => {
-      let state = {'storyCounter': 0, users: {"h12jklwelkjc":{}, "c":{}}};
+      let state = {'storyCounter': 0, stories: {}, users: {"h12jklwelkjc":{}, "c":{}}};
       let action = { users: ['h12jklwelkjc', 'c'] };
       let nextState = createStory(state, action);
 

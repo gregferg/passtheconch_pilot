@@ -8,12 +8,12 @@ export default function processRequest(store, action) {
   if (request.valid) {
     determineRequest(store, action);
   } else {
-    returnErrorsToClient(clientSocket, request);
+    returnErrorsToClient(action.socket, request);
   }
 }
 
 function returnErrorsToClient(clientSocket, request) {
-  clientSocket.emit({ type: 'ERROR', errors: request.errors })
+  clientSocket.emit('ERROR', { type: 'ERROR', errors: request.errors })
 }
 
 const newStoryQueue = [];
@@ -37,7 +37,7 @@ function processNewStory(store, action) {
     const otherClientSocketAndUser = newStoryQueue.pop();
     const otherUser = otherClientSocketAndUser.user;
     const OtherClientSocket = otherClientSocketAndUser.socket;
-    const newStoryAction = { users: [otherUser, action.user] };
+    const newStoryAction = { type: 'newStory', users: [otherUser, action.user] };
 
     store.updateStore(newStoryAction);
     const storyId = store.state.storyCounter;
@@ -53,7 +53,7 @@ function processNewStory(store, action) {
 
 function processUpdateStory(store, action) {
   var storyId = action.storyId;
-  store.updateStory(action);
+  store.updateStore(action);
   var updatedStory = store.state.stories[storyId].story;
 
   if (store.state.stories[storyId].story.length > 9) {
@@ -61,7 +61,7 @@ function processUpdateStory(store, action) {
       socket.emit('finishedStory', { finishedStory: updatedStory })
     });
 
-    store.removeStory({type: 'removeStory', storyId: storyId});
+    store.updateStore({type: 'removeStory', storyId: storyId});
     delete currentStoriesAndTheirSockets[storyId];
   } else {
     currentStoriesAndTheirSockets[storyId].forEach(function(socket) {
