@@ -20,13 +20,6 @@ export function createStory(state, action) {
   updatedState.users[userTwo] = {currentStory: {id: storyCounter, turn: true}}
 
   updatedState.storyCounter = storyCounter
-  // var updatedState = Object.assign({}, state, {
-  //     storyCounter: state.storyCounter + 1,
-  //     stories: updatedStories,
-  //     users: updatedUsers
-  //   }
-  // );
-
 
   return updatedState;
 }

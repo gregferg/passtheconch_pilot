@@ -51,7 +51,7 @@ export default function validate(state, action) {
       return response;
 
 
-    case "updateStory":
+    case "UPDATE_STORY_REQUEST":
       var user = action.user;
       var storyId = action.storyId;
 

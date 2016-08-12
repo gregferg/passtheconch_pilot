@@ -24,7 +24,7 @@ function determineRequest(store, action){
     case 'newStory':
       processNewStory(store, action);
       break;
-    case 'updateStory':
+    case 'UPDATE_STORY_REQUEST':
       processUpdateStory(store, action);
       break;
   }
@@ -43,8 +43,8 @@ function processNewStory(store, action) {
     const storyId = store.state.storyCounter;
     currentStoriesAndTheirSockets[storyId] = [clientSocket, OtherClientSocket];
 
-    clientSocket.emit('newStory', { storyId: storyId, turn: true });
-    OtherClientSocket.emit('newStory', { storyId: storyId, turn: false });
+    clientSocket.emit('STORY_CREATED', { storyId: storyId, turn: true });
+    OtherClientSocket.emit('STORY_CREATED', { storyId: storyId, turn: false });
   } else {
     newStoryQueue.push({ user: action.user, socket: clientSocket });
   }
@@ -54,18 +54,20 @@ function processNewStory(store, action) {
 function processUpdateStory(store, action) {
   var storyId = action.storyId;
   store.updateStore(action);
+  console.log(store);
   var updatedStory = store.state.stories[storyId].story;
+  console.log(updatedStory);
 
   if (store.state.stories[storyId].story.length > 9) {
     currentStoriesAndTheirSockets[storyId].forEach(function(socket) {
-      socket.emit('finishedStory', { finishedStory: updatedStory })
+      socket.emit('FINISHED_STORY', { finishedStory: updatedStory })
     });
 
     store.updateStore({type: 'removeStory', storyId: storyId});
     delete currentStoriesAndTheirSockets[storyId];
   } else {
     currentStoriesAndTheirSockets[storyId].forEach(function(socket) {
-      socket.emit('updateStory', { updatedStory: updatedStory })
+      socket.emit('STORY_UPDATED', { updatedStory: updatedStory })
     });
   }
 }
