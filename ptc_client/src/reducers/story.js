@@ -1,3 +1,8 @@
+export function searchingForStory(state, action) {
+  const newState = Object.assign({}, state, {searching: true});
+  return newState;
+}
+
 export function storyCreated(state, action) {
 
   const changesToStory = {
@@ -7,7 +12,7 @@ export function storyCreated(state, action) {
   const createdStory = Object.assign({}, state.story, changesToStory)
 
 
-  const newState = Object.assign({}, state, {story: createdStory});
+  const newState = Object.assign({}, state, {story: createdStory}, {searching: false});
   return newState;
 }
 

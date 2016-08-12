@@ -8,7 +8,7 @@ export default function reducer(state, action) {
       return createSession(state, action);
     case 'removeSession':
       return removeSession(state, action);
-    case 'newStory':
+    case 'NEW_STORY_REQUEST':
       return createStory(state, action);
     case 'UPDATE_STORY_REQUEST':
       return updateStory(state, action);

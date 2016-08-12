@@ -21,7 +21,7 @@ const currentStoriesAndTheirSockets = {};
 
 function determineRequest(store, action){
   switch (action.type) {
-    case 'newStory':
+    case 'NEW_STORY_REQUEST':
       processNewStory(store, action);
       break;
     case 'UPDATE_STORY_REQUEST':
@@ -37,7 +37,7 @@ function processNewStory(store, action) {
     const otherClientSocketAndUser = newStoryQueue.pop();
     const otherUser = otherClientSocketAndUser.user;
     const OtherClientSocket = otherClientSocketAndUser.socket;
-    const newStoryAction = { type: 'newStory', users: [otherUser, action.user] };
+    const newStoryAction = { type: 'NEW_STORY_REQUEST', users: [otherUser, action.user] };
 
     store.updateStore(newStoryAction);
     const storyId = store.state.storyCounter;

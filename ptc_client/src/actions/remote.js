@@ -3,7 +3,7 @@
 export function createStoryRequest(user) {
   return {
     meta: { remote: true},
-    type: 'newStory',
+    type: "NEW_STORY_REQUEST",
     user: user
   }
 }

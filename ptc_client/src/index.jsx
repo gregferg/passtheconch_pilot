@@ -22,7 +22,7 @@ const routes =
   <Route component={App}>
     <Route path="/" component={Splash} />
     <Route path="/about" component={About} />
-    <Route path="/seaching" component={SearchContainer} />
+    <Route path="/searching" component={SearchContainer} />
     <Route path="/story" component={StoryContainer} />
   </Route>;
 

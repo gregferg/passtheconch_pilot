@@ -29,7 +29,7 @@ export default function validate(state, action) {
     case "newSession":
       return response;
 
-    case "newStory":
+    case "NEW_STORY_REQUEST":
       var user = action.user;
       if (!validateUserExists(state, user)) {
         response.valid = false;

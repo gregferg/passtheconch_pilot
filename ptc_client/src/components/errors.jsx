@@ -11,7 +11,6 @@ export default React.createClass({
     if (newProps.errors === this.props.errors) {
       return ;
     } else {
-      console.log('hi');
       setTimeout(() => {
         this.props.clearErrorsTimeout()
       }, 5000);
