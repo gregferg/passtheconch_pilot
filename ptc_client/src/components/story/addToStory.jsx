@@ -17,6 +17,7 @@ export default React.createClass({
       <div>
         <Errors {...this.props}/>
         <Timer {...this.props}/>
+        <p>Sentences left: {10 - this.props.story.sentences.length}</p>
         <p>Characters {this.props.story.sentenceToAdd.length}/100</p>
         <textarea
           onChange={this.handleChange}

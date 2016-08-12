@@ -44,12 +44,15 @@ export function updateSetence(state, action) {
 }
 
 export function setFinishedStory(state, action) {
+  clearTimeout(state.story.timer.timeout);
+
   const updatedStory = {
       id: null,
       sentences: action.finishedStory,
       sentenceToAdd: "",
       turn: false,
-      finished: true
+      finished: true,
+      timer: {timeLeft: 0, timerTimeout: null}
   }
 
   const newState = Object.assign({}, state, {story: updatedStory});
