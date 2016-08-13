@@ -26,7 +26,7 @@ export function createStory(state, action) {
 
 export function updateStory(state, action) {
   const storyId = action.storyId;
-  const sentence = action.sentence;
+  const sentence = action.sentence.trim();
   const newState = Object.assign({}, state);
 
   newState.stories[storyId].story.push(sentence);

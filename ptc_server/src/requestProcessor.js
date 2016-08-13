@@ -34,6 +34,9 @@ function processNewStory(store, action) {
   const clientSocket = action.socket;
 
   if (newStoryQueue.length === 1) {
+    if (newStoryQueue[0].user === action.user) {
+      return;
+    }
     const otherClientSocketAndUser = newStoryQueue.pop();
     const otherUser = otherClientSocketAndUser.user;
     const OtherClientSocket = otherClientSocketAndUser.socket;
@@ -54,9 +57,7 @@ function processNewStory(store, action) {
 function processUpdateStory(store, action) {
   var storyId = action.storyId;
   store.updateStore(action);
-  console.log(store);
   var updatedStory = store.state.stories[storyId].story;
-  console.log(updatedStory);
 
   if (store.state.stories[storyId].story.length > 9) {
     currentStoriesAndTheirSockets[storyId].forEach(function(socket) {

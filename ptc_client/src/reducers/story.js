@@ -6,6 +6,7 @@ export function searchingForStory(state, action) {
 export function storyCreated(state, action) {
 
   const changesToStory = {
+    sentences: [],
     id: action.storyId,
     turn: action.turn
   }

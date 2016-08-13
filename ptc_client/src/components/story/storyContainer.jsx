@@ -1,9 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import CurrentStory from './currentStory';
 import BeginNewStory from './beginNewStory';
 import AddToStory from './addToStory';
 
+import {connect} from 'react-redux';
 import Actions from '../../actions/index';
 
 

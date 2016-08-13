@@ -8,7 +8,7 @@ import remoteActionMiddleware from './remote_action_middleware';
 import {socket, addListeners} from './websocket';
 
 import App from './components/app';
-import Splash from './components/splash';
+import SplashContainer from './components/splash';
 import About from './components/about';
 import SearchContainer from './components/search/searchContainer';
 import StoryContainer from './components/story/storyContainer';
@@ -20,7 +20,7 @@ addListeners(socket, store);
 
 const routes =
   <Route component={App}>
-    <Route path="/" component={Splash} />
+    <Route path="/" component={SplashContainer} />
     <Route path="/about" component={About} />
     <Route path="/searching" component={SearchContainer} />
     <Route path="/story" component={StoryContainer} />

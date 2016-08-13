@@ -1,11 +1,15 @@
 import React from 'react';
+import {hashHistory} from 'react-router';
 
 export default React.createClass({
+  handleClick: function() {
+    hashHistory.push('/searching');
+    this.props.createStoryRequest(this.props.user)
+  },
   render: function() {
-    const user = this.props.user;
     return (
       <div>
-        <button onClick={() => this.props.createStoryRequest(user)}>Create Story</button>
+        <button onClick={this.handleClick}>Create Story</button>
       </div>
     );
   }

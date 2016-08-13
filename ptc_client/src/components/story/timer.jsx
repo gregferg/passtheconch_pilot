@@ -5,6 +5,7 @@ var timerTimeout;
 
 export default React.createClass({
   decrementTimer: function() {
+
     if (!timeoutSet) {
       timeoutSet = true;
       this.props.reduceTimer();
@@ -34,6 +35,12 @@ export default React.createClass({
     } else if (!timeoutSet) {
       this.decrementTimer();
     }
+  },
+  componentDidMount: function() {
+    if (this.props.story.turn) {
+      this.decrementTimer();
+    }
+
   },
   render: function() {
     const user = this.props.user;
