@@ -6,7 +6,7 @@ export default function reducer(state, action) {
   switch (action.type) {
     case 'newSession':
       return createSession(state, action);
-    case 'removeSession':
+    case 'REMOVE_SESSION':
       return removeSession(state, action);
     case 'NEW_STORY_REQUEST':
       return createStory(state, action);

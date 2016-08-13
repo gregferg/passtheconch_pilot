@@ -20,6 +20,7 @@ app.get('/bundle', function (req, res) {
 
 
 
+var clientSockets = {};
 export function startServer(store) {
   // const io = new Server().attach(8090);
 
@@ -36,7 +37,9 @@ export function startServer(store) {
     store.updateStore(newSessionAction)
     socket.emit('SET_USER', {type: 'SET_USER', user: uniqueRandomString})
     console.log(store.state.users);
-    // socket.emit('newStory', {type: 'SET_USER', user: uniqueRandomString})
+    clientSockets[socket] = uniqueRandomString;
+
+
 
 
     socket.on('action', (action) => {
@@ -45,6 +48,21 @@ export function startServer(store) {
       action.socket = socket;
       processRequest(store, action);
       console.log(store.state);
+    });
+
+    socket.on('disconnect', function (){
+
+      //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification
+      console.log(clientSockets[socket]);
+      const deleteUserSession = {
+        type: 'REMOVE_SESSION',
+        id: clientSockets[socket]
+      }
+      store.updateStore(deleteUserSession)
+
+      delete clientSockets[socket]
+      console.log(clientSockets);
+      console.log("user left");
     });
   });
 

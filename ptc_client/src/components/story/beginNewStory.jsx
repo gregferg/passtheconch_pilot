@@ -9,7 +9,7 @@ export default React.createClass({
   render: function() {
     return (
       <div>
-        <button onClick={this.handleClick}>Create Story</button>
+        <button onClick={this.handleClick}>Create A Story</button>
       </div>
     );
   }
