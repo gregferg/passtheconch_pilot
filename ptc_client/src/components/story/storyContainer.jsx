@@ -15,7 +15,7 @@ export const Story = React.createClass({
       <div>
         <h1>StoryContainer</h1>
         <CurrentStory {...this.props} />
-        <AddToStory {...this.props} />
+        {this.props.story.id ? <AddToStory {...this.props} /> : <p></p> }
         {this.props.story.id ? <p></p> : <BeginNewStory {...this.props} />}
       </div>
     );

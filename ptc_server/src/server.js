@@ -4,20 +4,30 @@ import ioServer from 'socket.io';
 import {createUniqueRandomStringID} from './actions/session';
 import processRequest from './requestProcessor';
 
-var app = require('express')();
-var server = require('http').Server(app);
-var io = ioServer(server);
+var express = require('express');
+var app = express();
 
-server.listen(8090);
+var path = require('path');
+var serveStatic = require('serve-static');
+// var easyrtc = require('./');
+
+
+// process.title = "node-easyrtc";
+var port = process.env.PORT || 8090;
+
+app.use(express.static('../../ptc_client/index.html'));
 
 app.get('/', function (req, res) {
-  res.sendFile('/Users/grantsauer/Desktop/ptc_pilot/test_client/index.html');
+  res.sendFile(path.join(__dirname, '../../ptc_client/index.html'));
 });
 
-app.get('/bundle', function (req, res) {
-  res.sendFile('/Users/grantsauer/Desktop/ptc_pilot/test_client/bundle.js');
+app.get('/bundle.js', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../ptc_client/bundle.js'));
 });
 
+// server.listen(8090);
+var server = require('http').createServer(app).listen(port);
+var io = ioServer(server);
 
 
 var clientSockets = {};
@@ -52,7 +62,7 @@ export function startServer(store) {
 
     socket.on('disconnect', function (){
 
-      //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification
+      //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification, also to remove the story that the user was working on.
       console.log(clientSockets[socket]);
       const deleteUserSession = {
         type: 'REMOVE_SESSION',

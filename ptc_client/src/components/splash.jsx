@@ -8,8 +8,9 @@ import Actions from '../actions/index';
 export const Splash = React.createClass({
 
   render: function() {
-    return <div className="voting">
-      <h1>THIS IS SPLASH component</h1>
+    return <div>
+      <h1>Pass The Conch</h1>
+      <p>Practice creativity, storytelling, and working with others.</p>
       <BeginNewStory {...this.props}/>
     </div>;
   }
