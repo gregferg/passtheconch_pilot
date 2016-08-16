@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cf5ebd01fe966c7647e8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "123708fc09d2432c42dc"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -8251,23 +8251,29 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	var _splash = __webpack_require__(385);
+	var _splash = __webpack_require__(389);
 	
 	var _splash2 = _interopRequireDefault(_splash);
 	
-	var _about = __webpack_require__(389);
+	var _about = __webpack_require__(390);
 	
 	var _about2 = _interopRequireDefault(_about);
 	
-	var _searchContainer = __webpack_require__(390);
+	var _searchContainer = __webpack_require__(391);
 	
 	var _searchContainer2 = _interopRequireDefault(_searchContainer);
 	
-	var _storyContainer = __webpack_require__(391);
+	var _storyContainer = __webpack_require__(392);
 	
 	var _storyContainer2 = _interopRequireDefault(_storyContainer);
 	
+	var _navbar = __webpack_require__(385);
+	
+	var _navbar2 = _interopRequireDefault(_navbar);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	__webpack_require__(397);
 	
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)((0, _remote_action_middleware2.default)(_websocket.socket))(_redux.createStore);
 	var store = createStoreWithMiddleware(_reducer2.default);
@@ -8275,11 +8281,11 @@
 	
 	var routes = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { component: _app2.default },
-	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splash2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/searching', component: _searchContainer2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/story', component: _storyContainer2.default })
+	  { path: '/', component: _app2.default },
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _splash2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _about2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'searching', component: _searchContainer2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'story', component: _storyContainer2.default })
 	);
 	
 	_reactDom2.default.render(_react2.default.createElement(
@@ -43115,6 +43121,10 @@
 	  value: true
 	});
 	
+	var _navbar = __webpack_require__(385);
+	
+	var _navbar2 = _interopRequireDefault(_navbar);
+	
 	var _react = __webpack_require__(77);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -43125,7 +43135,12 @@
 	  displayName: 'app',
 	
 	  render: function render() {
-	    return this.props.children;
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(_navbar2.default, null),
+	      this.props.children
+	    );
 	  }
 	});
 
@@ -43138,7 +43153,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Splash = undefined;
+	exports.NavBar = undefined;
 	
 	var _react = __webpack_require__(77);
 	
@@ -43148,6 +43163,8 @@
 	
 	var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	
+	var _reactRouter = __webpack_require__(250);
+	
 	var _reactRedux = __webpack_require__(327);
 	
 	var _index = __webpack_require__(387);
@@ -43156,20 +43173,44 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Splash = exports.Splash = _react2.default.createClass({
-	  displayName: 'Splash',
+	// <BeginNewStory {...this.props}/>
 	
+	var NavBar = exports.NavBar = _react2.default.createClass({
+	  displayName: 'NavBar',
 	
+	  navigateHome: function navigateHome() {
+	    _reactRouter.hashHistory.push('/');
+	  },
+	  navigatePlay: function navigatePlay() {
+	    _reactRouter.hashHistory.push('/searching');
+	  },
+	  navigateAbout: function navigateAbout() {
+	    _reactRouter.hashHistory.push('/about');
+	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'voting' },
+	      null,
 	      _react2.default.createElement(
-	        'h1',
+	        'p',
 	        null,
-	        'THIS IS SPLASH component'
+	        'Logo'
 	      ),
-	      _react2.default.createElement(_beginNewStory2.default, this.props)
+	      _react2.default.createElement(
+	        'p',
+	        { onClick: this.navigateHome },
+	        'Home'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { onClick: this.navigatePlay },
+	        'Play'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { onClick: this.navigateAbout },
+	        'About'
+	      )
 	    );
 	  }
 	});
@@ -43180,9 +43221,9 @@
 	  };
 	}
 	
-	var SplashContainer = (0, _reactRedux.connect)(mapStateToProps, _index2.default)(Splash);
+	var NavBarContainer = (0, _reactRedux.connect)(mapStateToProps, _index2.default)(NavBar);
 	
-	exports.default = SplashContainer;
+	exports.default = NavBarContainer;
 
 /***/ },
 /* 386 */
@@ -43320,6 +43361,66 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Splash = undefined;
+	
+	var _react = __webpack_require__(77);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _beginNewStory = __webpack_require__(386);
+	
+	var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
+	
+	var _reactRedux = __webpack_require__(327);
+	
+	var _index = __webpack_require__(387);
+	
+	var _index2 = _interopRequireDefault(_index);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Splash = exports.Splash = _react2.default.createClass({
+	  displayName: 'Splash',
+	
+	
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h1',
+	        null,
+	        'Pass The Conch'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Practice creativity, storytelling, and working with others.'
+	      ),
+	      _react2.default.createElement(_beginNewStory2.default, this.props)
+	    );
+	  }
+	});
+	
+	function mapStateToProps(state) {
+	  return {
+	    user: state.user
+	  };
+	}
+	
+	var SplashContainer = (0, _reactRedux.connect)(mapStateToProps, _index2.default)(Splash);
+	
+	exports.default = SplashContainer;
+
+/***/ },
+/* 390 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _react = __webpack_require__(77);
 	
@@ -43331,16 +43432,25 @@
 	  displayName: 'about',
 	
 	  render: function render() {
-	    _react2.default.createElement(
-	      'h1',
+	    return _react2.default.createElement(
+	      'div',
 	      null,
-	      'hi'
+	      _react2.default.createElement(
+	        'h1',
+	        null,
+	        '"Whoever holds the conch gets to speak."'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Pass the Conch was created as a short turn based game to help people practice creative writing and joint storytelling. It is meant as a way to warm up before writting, to postpone boredom, other whatever other uses may come of it. None of the stories are saved, so if you like what you write, make sure to copy paste it to another application before starting another story!'
+	      )
 	    );
 	  }
 	});
 
 /***/ },
-/* 390 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43410,7 +43520,7 @@
 	exports.default = SearchContainer;
 
 /***/ },
-/* 391 */
+/* 392 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43424,7 +43534,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _currentStory = __webpack_require__(392);
+	var _currentStory = __webpack_require__(393);
 	
 	var _currentStory2 = _interopRequireDefault(_currentStory);
 	
@@ -43432,7 +43542,7 @@
 	
 	var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	
-	var _addToStory = __webpack_require__(393);
+	var _addToStory = __webpack_require__(394);
 	
 	var _addToStory2 = _interopRequireDefault(_addToStory);
 	
@@ -43459,7 +43569,7 @@
 	        'StoryContainer'
 	      ),
 	      _react2.default.createElement(_currentStory2.default, this.props),
-	      _react2.default.createElement(_addToStory2.default, this.props),
+	      this.props.story.id ? _react2.default.createElement(_addToStory2.default, this.props) : _react2.default.createElement('p', null),
 	      this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, this.props)
 	    );
 	  }
@@ -43478,7 +43588,7 @@
 	exports.default = StoryContainer;
 
 /***/ },
-/* 392 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43510,7 +43620,7 @@
 	});
 
 /***/ },
-/* 393 */
+/* 394 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43523,11 +43633,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _timer = __webpack_require__(394);
+	var _timer = __webpack_require__(395);
 	
 	var _timer2 = _interopRequireDefault(_timer);
 	
-	var _errors = __webpack_require__(395);
+	var _errors = __webpack_require__(396);
 	
 	var _errors2 = _interopRequireDefault(_errors);
 	
@@ -43596,7 +43706,7 @@
 	});
 
 /***/ },
-/* 394 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43667,7 +43777,7 @@
 	});
 
 /***/ },
-/* 395 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43712,6 +43822,12 @@
 	    );
 	  }
 	});
+
+/***/ },
+/* 397 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

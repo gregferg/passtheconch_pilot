@@ -1,0 +1,43 @@
+.navbar-container {
+  height: 80px;
+  width: 100vw;
+  border-bottom: black 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbar-link:hover {
+  cursor: pointer;
+}
+
+.navbar-link {
+  padding: 10px 15px 10px 15px;
+  margin-left: 5px;
+}
+
+.navbar-link.logo {
+  margin-left: 0;
+}
+
+
+.navbar-links .new-story-button {
+  padding: 0;
+  border: none;
+  width: 100%;
+  background-color: black;
+
+}

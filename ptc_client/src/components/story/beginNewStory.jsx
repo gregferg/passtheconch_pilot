@@ -1,6 +1,8 @@
 import React from 'react';
 import {hashHistory} from 'react-router';
 
+require('../../stylesheets/beginNewStory.css.scss');
+
 export default React.createClass({
   handleClick: function() {
     hashHistory.push('/searching');
@@ -8,8 +10,12 @@ export default React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <button onClick={this.handleClick}>Create A Story</button>
+      <div className={this.props.className}>
+        <div
+          className="new-story-button"
+          onClick={this.handleClick}>
+          {this.props.buttonTitle}
+        </div>
       </div>
     );
   }

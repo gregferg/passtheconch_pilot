@@ -6,7 +6,9 @@ import {hashHistory} from 'react-router';
 import {connect} from 'react-redux';
 import Actions from '../actions/index';
 
-// <BeginNewStory {...this.props}/>
+require('../stylesheets/navbar.css.scss');
+
+//
 
 export const NavBar = React.createClass({
   navigateHome: function() {
@@ -20,11 +22,17 @@ export const NavBar = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <p>Logo</p>
-        <p onClick={this.navigateHome}>Home</p>
-        <p onClick={this.navigatePlay}>Play</p>
-        <p onClick={this.navigateAbout}>About</p>
+      <div className="navbar-container">
+        <div className="navbar">
+          <div className="navbar-logo">
+            <div className="navbar-link logo">Logo</div>
+          </div>
+          <div className="navbar-links">
+            <div className="navbar-link" onClick={this.navigateHome}>Home</div>
+            <BeginNewStory className="navbar-link"  {...this.props} buttonTitle="Play"/>
+            <div className="navbar-link"  onClick={this.navigateAbout}>About</div>
+          </div>
+        </div>
       </div>
     );
   }

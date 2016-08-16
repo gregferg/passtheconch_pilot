@@ -15,6 +15,8 @@ import StoryContainer from './components/story/storyContainer';
 import NavBar from './components/navbar';
 
 
+require('./stylesheets/main.css.scss');
+
 const createStoreWithMiddleware = applyMiddleware(
   remoteActionMiddleware(socket))(createStore);
 const store = createStoreWithMiddleware(reducer);

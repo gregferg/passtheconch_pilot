@@ -1,3 +1,4 @@
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
 
 module.exports = {
@@ -16,7 +17,9 @@ module.exports = {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel'
-    }]
+    },
+    { test: /\.scss$/,
+     loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!sass-loader") }]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -27,6 +30,7 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-  new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("style.css", {allChunks: false})
   ]
 };

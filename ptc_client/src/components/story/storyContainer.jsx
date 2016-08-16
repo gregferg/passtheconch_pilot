@@ -6,6 +6,7 @@ import AddToStory from './addToStory';
 import {connect} from 'react-redux';
 import Actions from '../../actions/index';
 
+require('../../stylesheets/story.css.scss');
 
 export const Story = React.createClass({
   render: function() {
