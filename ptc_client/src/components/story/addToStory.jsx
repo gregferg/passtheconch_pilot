@@ -28,7 +28,7 @@ export default React.createClass({
   render: function() {
     const user = this.props.user;
     return (
-      <div className="story-add-to">
+      <div className="story-add-to fade-in3">
         <div className="errors">
           <Errors {...this.props}/>
         </div>

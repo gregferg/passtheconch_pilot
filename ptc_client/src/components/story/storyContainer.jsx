@@ -11,6 +11,8 @@ import {hashHistory} from 'react-router';
 
 require('../../stylesheets/story.css.scss');
 
+var navigateAway = "";
+
 export const Story = React.createClass({
   componentWillMount: function() {
     if (!this.props.user) {
@@ -20,9 +22,9 @@ export const Story = React.createClass({
   render: function() {
     return (
       <div className="story-container">
-        <div className="story">
-          <h1>Story</h1>
-          <h3>{this.props.story.prompt}</h3>
+        <div className={this.props.generateClassName("story", this.props.isNavigating)}>
+          <h1 className="animate-fade-and-slide1">Story</h1>
+          <h3 className="animate-fade-and-slide2">{this.props.story.prompt}</h3>
           <CurrentStory {...this.props} />
           {this.props.story.id ? <AddToStory {...this.props} /> : <p></p> }
           {this.props.story.id ? <p></p> : <BeginNewStory {...this.props} buttonTitle="Make another story" className="story"/>}

@@ -11,7 +11,7 @@ const DEFAULT_STATE = {
     prompt: "",
     turn: null,
     finished: false,
-    timer: {timeLeft: 5, timeout: null}
+    timer: {timeLeft: 65, timeout: null}
   },
   errors: [],
   searching: false

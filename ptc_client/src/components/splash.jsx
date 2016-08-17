@@ -10,13 +10,13 @@ export const Splash = React.createClass({
 
   render: function() {
     return (
-      <div className="splash-container">
+      <div className={this.props.generateClassName("splash-container", this.props.isNavigating)}>
         <div className="splash">
           <div className="splash-title">
-            <h1>Pass The Conch</h1>
-            <p>Practice creativity, storytelling, and working with others through writing sentences back and forth to create a unique story.</p>
+            <h1 className="animate-fade-and-slide1">Pass The Conch</h1>
+            <p className="animate-fade-and-slide2">Practice creativity, storytelling, and working with others through writing sentences back and forth to create a unique story.</p>
           </div>
-          <div className="splash-buttons">
+          <div className="splash-buttons animate-fade-and-slide3">
             <div className="splash-how-to-play">
               How to Play
             </div>

@@ -6,16 +6,23 @@ require('../../stylesheets/search.css.scss');
 
 var numOfPeriods = 0;
 var animateTimeout;
+var navigateTimout = false;
 
 export const Search = React.createClass({
   getInitialState: function() {
     return {searchingStatus: ""}
   },
   animateSeaching: function() {
-    if (this.props.search === false) {
+    if (navigateTimout) {
+      return ;
+    }
+
+    if (this.props.search === false && this.props.story.id === null) {
       clearTimeout(animateTimeout);
       hashHistory.push('/');
       return ;
+
+    } else if (this.props.story.id !== null) {
 
     } else {
 
@@ -34,15 +41,26 @@ export const Search = React.createClass({
       return;
     }
 
-    this.animateSeaching();
+    if (this.props.story.id) {
+      hashHistory.push('/story');
+      return;
+    }
+
+    animateTimeout = setTimeout(() => {this.animateSeaching()}, 2000);
   },
   componentWillUnmount: function() {
     clearTimeout(animateTimeout);
   },
   componentWillReceiveProps: function(newProps) {
-    if (newProps.story.id) {
+    if (!this.props.story.id && newProps.story.id) {
+      navigateTimout = true;
       clearTimeout(animateTimeout);
-      hashHistory.push('/story');
+
+      this.props.startNavigating();
+
+      setTimeout(() => {
+        hashHistory.push('/story')
+      }, 800);
     }
   },
   checkIfPlayerIsActuallySearching: function() {
@@ -54,9 +72,10 @@ export const Search = React.createClass({
     }
   },
   render: function() {
+    console.log(this.props.isNavigating);
     return (
-      <div className="search-container">
-        <div className="search">
+      <div className="search-container animate-fade-and-slide1">
+        <div className={this.props.generateClassName("search", this.props.isNavigating)}>
           <h1>Searching {this.state.searchingStatus}</h1>
         </div>
       </div>

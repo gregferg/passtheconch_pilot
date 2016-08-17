@@ -8,29 +8,51 @@ import Actions from '../actions/index';
 
 require('../stylesheets/navbar.css.scss');
 
-//
+var timeoutSet = false;
 
 export const NavBar = React.createClass({
   navigateHome: function() {
-    hashHistory.push('/');
+    if (timeoutSet) { return ; }
+    this.props.startNavigating();
+
+    timeoutSet = true;
+    setTimeout(() => {
+      hashHistory.push('/');
+      timeoutSet = false;
+    }, 800);
   },
   navigatePlay: function() {
-    hashHistory.push('/searching');
+    if (timeoutSet) { return ; }
+    this.props.startNavigating();
+
+    timeoutSet = true;
+    setTimeout(() => {
+      this.props.createStoryRequest(this.props.user)
+      hashHistory.push('/searching');
+      timeoutSet = false;
+    }, 800);
   },
   navigateAbout: function() {
-    hashHistory.push('/about');
+    if (timeoutSet) { return ; }
+    this.props.startNavigating();
+
+    timeoutSet = true;
+    setTimeout(() => {
+      hashHistory.push('/about');
+      timeoutSet = false;
+    }, 800);
   },
   render: function() {
     return (
-      <div className="navbar-container">
+      <div className="navbar-container animate-fade-and-slide-in-from-top">
         <div className="navbar">
           <div className="navbar-logo">
             <div className="navbar-link logo" onClick={this.navigateHome}>Logo</div>
           </div>
-          
+
           <div className="navbar-links">
             <div className="navbar-link" onClick={this.navigateHome}>Home</div>
-            <BeginNewStory className="navbar-link"  {...this.props} buttonTitle="Play"/>
+            <div className="navbar-link" onClick={this.navigatePlay}>Play</div>
             <div className="navbar-link" onClick={this.navigateAbout}>About</div>
           </div>
         </div>

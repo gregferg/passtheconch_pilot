@@ -4,7 +4,6 @@ export function searchingForStory(state, action) {
 }
 
 export function storyCreated(state, action) {
-
   const changesToStory = {
     sentences: [],
     id: action.storyId,
@@ -13,15 +12,12 @@ export function storyCreated(state, action) {
   }
   const createdStory = Object.assign({}, state.story, changesToStory)
 
-
   const newState = Object.assign({}, state, {story: createdStory}, {searching: false});
   return newState;
 }
 
 
 export function setUpdatedStory(state, action) {
-  // clearTimeout(state.story.timer.timeout);
-
   const changesToStory = {
     sentences: action.updatedStory,
     sentenceToAdd: "",
