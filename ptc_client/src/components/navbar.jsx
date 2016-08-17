@@ -25,12 +25,13 @@ export const NavBar = React.createClass({
       <div className="navbar-container">
         <div className="navbar">
           <div className="navbar-logo">
-            <div className="navbar-link logo">Logo</div>
+            <div className="navbar-link logo" onClick={this.navigateHome}>Logo</div>
           </div>
+          
           <div className="navbar-links">
             <div className="navbar-link" onClick={this.navigateHome}>Home</div>
             <BeginNewStory className="navbar-link"  {...this.props} buttonTitle="Play"/>
-            <div className="navbar-link"  onClick={this.navigateAbout}>About</div>
+            <div className="navbar-link" onClick={this.navigateAbout}>About</div>
           </div>
         </div>
       </div>

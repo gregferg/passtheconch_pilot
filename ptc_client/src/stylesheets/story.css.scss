@@ -1,0 +1,101 @@
+.story-container {
+  width: 100vw;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.story {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 560px;
+}
+
+.story h1 {
+  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+}
+
+.story h3 {
+  font-family:'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+.story p {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  word-wrap: break-word;
+}
+
+.story-current {
+  margin-top: 30px;
+}
+
+.story-add-to {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-add-to-timer-and-characters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.story-characters {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 125px;
+}
+
+.story-text-area {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  background-color: black;
+  color: white;
+  font-size: 15px;
+  padding: 1% 2% 1% 2%;
+  margin-top: 15px;
+  height: 100px;
+}
+
+.story-update-button {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 25px;
+
+  width: 100%;
+  height: 50px;
+  margin-top: 15px;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-update-button:hover {
+  cursor: pointer;
+}
+
+.story .new-story-button {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+
+  margin-top: 30px;
+  width: 130px;
+}

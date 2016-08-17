@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+require('../stylesheets/errors.css.scss');
 
 export default React.createClass({
   componentWillReceiveProps: function(newProps) {
@@ -16,9 +16,12 @@ export default React.createClass({
       }, 5000);
     }
   },
+  componentDidMount: function() {
+    this.props.clearErrorsTimeout();
+  },
   render: function() {
     return (
-      <div>
+      <div className="errors">
         <p>{this.props.errors.join('. ')}</p>
       </div>
     );

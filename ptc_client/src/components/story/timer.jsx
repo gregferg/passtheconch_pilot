@@ -5,10 +5,11 @@ var timerTimeout;
 
 export default React.createClass({
   decrementTimer: function() {
-
     if (!timeoutSet) {
       timeoutSet = true;
-      this.props.reduceTimer();
+      if (this.props.story.timer.timeLeft > 0) {
+        this.props.reduceTimer();
+      }
 
       setTimeout(() => {
         timeoutSet = false;
@@ -22,11 +23,9 @@ export default React.createClass({
     }
   },
   componentWillReceiveProps: function(newProps) {
-    if (!newProps.story.turn) {
-      return ;
-    }
 
-    if (newProps.story.timer.timeLeft < 0) {
+
+    if (newProps.story.timer.timeLeft === 0 && this.props.story.turn) {
       this.props.updateStoryRequest(
         this.props.story.id,
         this.props.story.sentenceToAdd,
@@ -37,10 +36,7 @@ export default React.createClass({
     }
   },
   componentDidMount: function() {
-    if (this.props.story.turn) {
-      this.decrementTimer();
-    }
-
+    this.decrementTimer();
   },
   render: function() {
     const user = this.props.user;

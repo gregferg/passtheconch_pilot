@@ -8,7 +8,8 @@ export function storyCreated(state, action) {
   const changesToStory = {
     sentences: [],
     id: action.storyId,
-    turn: action.turn
+    turn: action.turn,
+    prompt: action.prompt
   }
   const createdStory = Object.assign({}, state.story, changesToStory)
 
@@ -19,7 +20,7 @@ export function storyCreated(state, action) {
 
 
 export function setUpdatedStory(state, action) {
-  clearTimeout(state.story.timer.timeout);
+  // clearTimeout(state.story.timer.timeout);
 
   const changesToStory = {
     sentences: action.updatedStory,
@@ -58,7 +59,8 @@ export function setFinishedStory(state, action) {
       sentenceToAdd: "",
       turn: false,
       finished: true,
-      timer: {timeLeft: 0, timerTimeout: null}
+      prompt: state.story.prompt,
+      timer: {timeLeft: 60, timerTimeout: null}
   }
 
   const newState = Object.assign({}, state, {story: updatedStory});

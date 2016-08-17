@@ -8,6 +8,7 @@ const DEFAULT_STATE = {
     id: null,
     sentences: [],
     sentenceToAdd: "",
+    prompt: "",
     turn: null,
     finished: false,
     timer: {timeLeft: 5, timeout: null}

@@ -18,30 +18,44 @@ export default React.createClass({
     if (code === 13) {
       e.preventDefault();
 
+      console.log("enterkey pressed");
       this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user)
     }
   },
-  isDisabled: function() {
-    // return !this.props.story.turn;
+  isTurn: function() {
+    return this.props.story.turn ? {"display": "flex"} : {"display": "none"};
   },
   render: function() {
     const user = this.props.user;
     return (
-      <div>
-        <Errors {...this.props}/>
-        <Timer {...this.props}/>
-        <p>Sentences left: {10 - this.props.story.sentences.length}</p>
-        <p>Characters {this.props.story.sentenceToAdd.length}/100</p>
-        <textarea
+      <div className="story-add-to">
+        <div className="errors">
+          <Errors {...this.props}/>
+        </div>
+
+        <div className="story-add-to-timer-and-characters">
+          <Timer {...this.props}/>
+
+          <div className="story-senteneces-left">
+            <p>Sentences left: {10 - this.props.story.sentences.length}</p>
+          </div>
+
+          <div className="story-characters">
+            <p>Characters:</p>
+            <p>{this.props.story.sentenceToAdd.length}/100</p>
+          </div>
+        </div>
+
+        <textarea style={this.isTurn()} className="story-text-area"
           onKeyUp={this.handleKeyPress}
           onChange={this.handleChange}
           value={this.props.story.sentenceToAdd}>
         </textarea>
 
-        <button
+        <div style={this.isTurn()} className="story-update-button"
           onClick={() => this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, user)}>
           Pass the Conch
-        </button>
+        </div>
       </div>
     );
   }

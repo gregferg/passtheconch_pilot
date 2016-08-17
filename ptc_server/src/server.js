@@ -27,10 +27,11 @@ app.get('/bundle.js', function (req, res) {
 
 // server.listen(8090);
 var server = require('http').createServer(app).listen(port);
-var io = ioServer(server);
+var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
 
 
 var clientSockets = {};
+var clientSocketTimeouts = {};
 export function startServer(store) {
   // const io = new Server().attach(8090);
 
@@ -51,8 +52,9 @@ export function startServer(store) {
 
 
 
-
     socket.on('action', (action) => {
+      clearTimeout(clientSocketTimeouts[clientSockets[socket]]);
+
       console.log(action);
       console.log('shit happened');
       action.socket = socket;
@@ -68,13 +70,19 @@ export function startServer(store) {
         type: 'REMOVE_SESSION',
         id: clientSockets[socket]
       }
-      store.updateStore(deleteUserSession)
+
+      var timeout = setTimeout(() => {disconnectAfterTimeout(store, deleteUserSession)}, 120000);
+      clientSocketTimeouts[clientSockets[socket]] = timeout;
+
 
       delete clientSockets[socket]
       console.log(clientSockets);
       console.log("user left");
     });
   });
+}
 
 
+function disconnectAfterTimeout(store, action) {
+  store.updateStore(action)
 }

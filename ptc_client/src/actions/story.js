@@ -3,12 +3,11 @@ export function storyCreated(action) {
     type: 'STORY_CREATED',
     storyId: action.storyId,
     turn: action.turn,
+    prompt: action.prompt
   }
 }
 
 export function storyUpdated(action) {
-  console.log('storyUpdatedaction');
-  console.log(action);
   return {
     type: 'SET_UPDATED_STORY',
     updatedStory: action.updatedStory

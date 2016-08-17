@@ -24,9 +24,21 @@ export function createStory(state, action) {
   return updatedState;
 }
 
+const PUNCTUATION = ['.', '?', '!', ','];
+
+function fixPunctuation(sentence) {
+  const lastChar = sentence[sentence.length - 1];
+  if (PUNCTUATION.indexOf(lastChar) === -1) {
+    return sentence + '.'
+  } else {
+    return sentence
+  }
+}
+
 export function updateStory(state, action) {
   const storyId = action.storyId;
-  const sentence = action.sentence.trim();
+  var sentence = action.sentence.trim();
+  sentence = fixPunctuation(sentence);
   const newState = Object.assign({}, state);
 
   newState.stories[storyId].story.push(sentence);

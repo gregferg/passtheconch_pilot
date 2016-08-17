@@ -1,4 +1,4 @@
-
+import createAPrompt from './prompts.js';
 import validate from './actions/actionValidator';
 
 
@@ -37,6 +37,7 @@ function processNewStory(store, action) {
     if (newStoryQueue[0].user === action.user) {
       return;
     }
+
     const otherClientSocketAndUser = newStoryQueue.pop();
     const otherUser = otherClientSocketAndUser.user;
     const OtherClientSocket = otherClientSocketAndUser.socket;
@@ -46,8 +47,10 @@ function processNewStory(store, action) {
     const storyId = store.state.storyCounter;
     currentStoriesAndTheirSockets[storyId] = [clientSocket, OtherClientSocket];
 
-    clientSocket.emit('STORY_CREATED', { storyId: storyId, turn: true });
-    OtherClientSocket.emit('STORY_CREATED', { storyId: storyId, turn: false });
+    const prompt = createAPrompt();
+
+    clientSocket.emit('STORY_CREATED', { storyId, turn: true, prompt });
+    OtherClientSocket.emit('STORY_CREATED', { storyId, turn: false, prompt });
   } else {
     newStoryQueue.push({ user: action.user, socket: clientSocket });
   }
