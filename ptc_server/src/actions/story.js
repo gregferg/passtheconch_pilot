@@ -13,6 +13,7 @@ export function createStory(state, action) {
   const userOne = action.users[0];
   const userTwo = action.users[1];
 
+  console.log(action.users);
   console.log(updatedState);
   updatedState.stories[storyCounter] = { users: [userOne, userTwo], story: [] }
 
@@ -42,6 +43,10 @@ export function updateStory(state, action) {
   const newState = Object.assign({}, state);
 
   newState.stories[storyId].story.push(sentence);
+  console.log('users');
+  console.log(newState.stories[storyId].users);
+  console.log(newState.stories[storyId].users[0]);
+  console.log(newState.stories[storyId].users[1]);
 
   const userOne = newState.stories[storyId].users[0];
   const userTwo = newState.stories[storyId].users[1];

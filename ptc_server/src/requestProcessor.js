@@ -33,8 +33,8 @@ function determineRequest(store, action){
 function processNewStory(store, action) {
   const clientSocket = action.socket;
 
-  if (newStoryQueue.length === 1) {
-    if (newStoryQueue[0].user === action.user) {
+  if (newStoryQueue.length >= 1) {
+    if (newStoryQueue[newStoryQueue.length - 1].user === action.user) {
       return;
     }
 

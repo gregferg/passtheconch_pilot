@@ -2,6 +2,7 @@ import React from 'react';
 import Timer from './timer';
 import Errors from '../errors';
 
+
 export default React.createClass({
   handleChange: function(e) {
     e.preventDefault();
@@ -25,10 +26,21 @@ export default React.createClass({
   isTurn: function() {
     return this.props.story.turn ? {"display": "flex"} : {"display": "none"};
   },
+  generateAddToStoryClassName: function(normalClassName, firstAnimation) {
+    if (this.props.firstRender) {
+      return normalClassName + " " + firstAnimation;
+    }
+
+    if (this.props.turnChange && !this.props.firstRender) {
+      return normalClassName + " navigate-away";
+    } else {
+      return normalClassName + " animate-fade-and-slide1";
+    }
+  },
   render: function() {
-    const user = this.props.user;
+    console.log('new render');
     return (
-      <div className="story-add-to fade-in3">
+      <div className={this.generateAddToStoryClassName("story-add-to", "animate-fade-and-slide4")}>
         <div className="errors">
           <Errors {...this.props}/>
         </div>
@@ -53,7 +65,7 @@ export default React.createClass({
         </textarea>
 
         <div style={this.isTurn()} className="story-update-button"
-          onClick={() => this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, user)}>
+          onClick={() => this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user)}>
           Pass the Conch
         </div>
       </div>

@@ -25,7 +25,5 @@ export function addListeners(socket, store) {
     store.dispatch(displayErrors(action));
   })
 
-  socket.on('disconnect', () => {
-    console.log("disconnected for no reason");
-  })
+
 }

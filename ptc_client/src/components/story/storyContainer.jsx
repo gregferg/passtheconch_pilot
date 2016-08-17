@@ -2,6 +2,7 @@ import React from 'react';
 import CurrentStory from './currentStory';
 import BeginNewStory from './beginNewStory';
 import AddToStory from './addToStory';
+import NotYourTurn from './notYourTurn';
 
 import {connect} from 'react-redux';
 import Actions from '../../actions/index';
@@ -11,13 +12,31 @@ import {hashHistory} from 'react-router';
 
 require('../../stylesheets/story.css.scss');
 
-var navigateAway = "";
-
 export const Story = React.createClass({
+  getInitialState: function() {
+    return ({ turnIsChanging: false });
+  },
   componentWillMount: function() {
     if (!this.props.user) {
       hashHistory.push('/');
     }
+  },
+  componentWillReceiveProps: function (newProps) {
+    if (newProps.story.turn && this.state.firstRender) {
+      this.setState({ turn: true });
+    } else {
+      if (newProps.story.turn !== this.props.story.turn) {
+        this.turnChange();
+      }
+    }
+  },
+  turnChange: function() {
+    this.setState({ turnIsChanging: true, firstRender: false });
+
+    setTimeout(() => { this.setState({ turnIsChanging: false, turn: this.props.story.turn })}, 800);
+  },
+  componentDidMount: function() {
+    this.setState({ firstRender: true });
   },
   render: function() {
     return (
@@ -26,8 +45,8 @@ export const Story = React.createClass({
           <h1 className="animate-fade-and-slide1">Story</h1>
           <h3 className="animate-fade-and-slide2">{this.props.story.prompt}</h3>
           <CurrentStory {...this.props} />
-          {this.props.story.id ? <AddToStory {...this.props} /> : <p></p> }
-          {this.props.story.id ? <p></p> : <BeginNewStory {...this.props} buttonTitle="Make another story" className="story"/>}
+          {this.state.turn ? <AddToStory {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> : <NotYourTurn {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> }
+          {this.props.story.id ? <p></p> : <BeginNewStory {...this.props} buttonTitle="Make another story" className="story animate-fade-and-slide1"/>}
         </div>
       </div>
     );

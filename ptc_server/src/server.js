@@ -25,6 +25,10 @@ app.get('/bundle.js', function (req, res) {
   res.sendFile(path.join(__dirname, '../../ptc_client/bundle.js'));
 });
 
+app.get('/style.css', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../ptc_client/style.css'));
+});
+
 // server.listen(8090);
 var server = require('http').createServer(app).listen(port);
 var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
@@ -32,11 +36,13 @@ var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
 
 var clientSockets = {};
 var clientSocketTimeouts = {};
+
 export function startServer(store) {
   // const io = new Server().attach(8090);
 
   io.on('connection', (socket) => {
     console.log(socket + ' connected');
+    var socketTimetout = null;
 
     const uniqueRandomString = createUniqueRandomStringID(store.state);
 
@@ -53,7 +59,8 @@ export function startServer(store) {
 
 
     socket.on('action', (action) => {
-      clearTimeout(clientSocketTimeouts[clientSockets[socket]]);
+      console.log(socketTimetout);
+      clearTimeout(socketTimetout);
 
       console.log(action);
       console.log('shit happened');
@@ -62,22 +69,17 @@ export function startServer(store) {
       console.log(store.state);
     });
 
-    socket.on('disconnect', function (){
-
+    socket.on('disconnectMe', function (userToDisconnect){
       //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification, also to remove the story that the user was working on.
-      console.log(clientSockets[socket]);
       const deleteUserSession = {
         type: 'REMOVE_SESSION',
-        id: clientSockets[socket]
+        id: clientSockets[userToDisconnect]
       }
 
-      var timeout = setTimeout(() => {disconnectAfterTimeout(store, deleteUserSession)}, 120000);
-      clientSocketTimeouts[clientSockets[socket]] = timeout;
-
-
-      delete clientSockets[socket]
-      console.log(clientSockets);
-      console.log("user left");
+        disconnectAfterTimeout(store, deleteUserSession);
+        console.log(userToDisconnect);
+        console.log("user left");
+        delete clientSockets[userToDisconnect];
     });
   });
 }

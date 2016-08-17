@@ -23,8 +23,6 @@ export default React.createClass({
     }
   },
   componentWillReceiveProps: function(newProps) {
-
-
     if (newProps.story.timer.timeLeft === 0 && this.props.story.turn) {
       this.props.updateStoryRequest(
         this.props.story.id,
@@ -39,7 +37,6 @@ export default React.createClass({
     this.decrementTimer();
   },
   render: function() {
-    const user = this.props.user;
     return (
       <div>
         <p>Time Left: {this.props.story.timer.timeLeft}</p>

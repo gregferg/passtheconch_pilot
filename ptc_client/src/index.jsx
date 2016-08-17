@@ -22,6 +22,8 @@ const createStoreWithMiddleware = applyMiddleware(
 const store = createStoreWithMiddleware(reducer);
 addListeners(socket, store);
 
+export const SOCKET = socket;
+
 const routes =
 <Route path='/' component={App}>
   <IndexRoute component={SplashContainer} />

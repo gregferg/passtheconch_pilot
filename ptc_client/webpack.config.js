@@ -1,10 +1,10 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
 
+// 'webpack-dev-server/client?http://localhost:8080',
+// 'webpack/hot/only-dev-server',
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
     './src/index.jsx'
   ],
   output: {
@@ -30,7 +30,8 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin("style.css", {allChunks: false})
   ]
 };
+
+// new webpack.HotModuleReplacementPlugin(),

@@ -77,6 +77,18 @@ body {
 	animation-delay: 1.2s;
 }
 
+.animate-fade-and-slide4 {
+	opacity: 0;
+
+	-webkit-animation: fade-and-slide-in 2s forwards; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 3s; /* Firefox < 16 */
+        -ms-animation: fadein 3s; /* Internet Explorer */
+         -o-animation: fadein 3s; /* Opera < 12.1 */
+
+	-webkit-animation-delay: 2s; /* Safari, Chrome and Opera > 11.5.1 */
+	animation-delay: 2s;
+}
+
 .animate-fade-and-slide3 {
 	opacity: 0;
 
