@@ -27,11 +27,10 @@ app.get('/style.css', function (req, res) {
 });
 
 // server.listen(8090);
-var server = require('http').createServer(app);
-server.listen(port);
+var server = require('http').createServer(app).listen(port);
 
 var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
-io.listen(port);
+io.listen(8090);
 
 var clientSockets = {};
 var clientSocketTimeouts = {};

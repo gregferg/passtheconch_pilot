@@ -28885,8 +28885,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// export const socket = io.connect(`${location.protocol}//${location.hostname}:8090`);
-	var socket = exports.socket = _socket2.default.connect(location.protocol + '//' + location.hostname);
+	var socket = exports.socket = _socket2.default.connect(location.protocol + '//' + location.hostname + ':8090');
+	// export const socket = io.connect(`${location.protocol}//${location.hostname}`);
 	
 	function addListeners(socket, store) {
 	  socket.on('SET_USER', function (action) {
