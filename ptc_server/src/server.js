@@ -31,7 +31,7 @@ var server = require('http').createServer(app);
 server.listen(port);
 
 var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
-io.listen(server);
+io.listen(port);
 
 var clientSockets = {};
 var clientSocketTimeouts = {};
