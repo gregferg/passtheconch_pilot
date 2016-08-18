@@ -9,10 +9,7 @@ var app = express();
 
 var path = require('path');
 var serveStatic = require('serve-static');
-// var easyrtc = require('./');
 
-
-// process.title = "node-easyrtc";
 var port = process.env.PORT || 8090;
 
 app.use(express.static('../../ptc_client/index.html'));
@@ -30,9 +27,11 @@ app.get('/style.css', function (req, res) {
 });
 
 // server.listen(8090);
-var server = require('http').createServer(app).listen(port);
-var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
+var server = require('http').createServer(app);
+server.listen(port);
 
+var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
+io.listen(server)
 
 var clientSockets = {};
 var clientSocketTimeouts = {};
