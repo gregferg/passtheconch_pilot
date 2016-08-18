@@ -3,7 +3,7 @@ import {setSession, storyCreated, storyUpdated, storyFinished, displayErrors}
 from './actions/remote';
 
 // export const socket = io.connect(`${location.protocol}//${location.hostname}:8090`);
-export const socket = io();
+export const socket = io.connect(`${location.protocol}//${location.hostname}`);
 
 export function addListeners(socket, store) {
   socket.on('SET_USER', (action) => {
