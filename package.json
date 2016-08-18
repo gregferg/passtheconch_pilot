@@ -4,9 +4,7 @@
   "description": "",
   "main": "ptc_server/index.js",
   "scripts": {
-    "start": "babel-node ptc_server/index.js",
-    "test": "mocha --compilers js:babel-core/register --recursive",
-    "test:watch": "npm run test -- --watch"
+    "start": "babel-node ptc_server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -35,8 +33,11 @@
     "react-hot-loader": "^1.3.0"
   },
   "dependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
     "babel-eslint": "^6.1.2",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-es2015": "^6.13.2",
     "eslint": "^3.2.2",
     "express": "^4.14.0",
     "react": "^15.3.0",
