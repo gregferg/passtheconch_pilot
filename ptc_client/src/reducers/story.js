@@ -3,13 +3,19 @@ export function searchingForStory(state, action) {
   return newState;
 }
 
+export function setNumOfOnlineUsers(state, action) {
+  const newState = Object.assign({}, state, {numOfUsersOnline: action.numOfUsersOnline});
+  return newState
+}
+
 export function storyCreated(state, action) {
   const changesToStory = {
     sentences: [],
     id: action.storyId,
     turn: action.turn,
     prompt: action.prompt,
-    otherUserLeft: false
+    otherUserLeft: false,
+    finished: false
   }
   const createdStory = Object.assign({}, state.story, changesToStory)
 

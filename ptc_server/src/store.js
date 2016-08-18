@@ -10,14 +10,14 @@ export default function makeStore(reducer) {
       this.state = this.reducer(this.state, action);
     }
   }
-  
+
   return store;
 }
 
 
 
 export const STORE_INTIAL_STATE = {
-  users: {},
+  users: {numOnline: 0},
   stories: {},
   storyCounter: 0
 }

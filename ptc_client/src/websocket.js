@@ -9,6 +9,10 @@ export function addListeners(socket, store) {
     store.dispatch(setSession(action));
   })
 
+  socket.on('NUM_USERS_ONLINE', (action) => {
+    store.dispatch(action);
+  })
+
   socket.on('STORY_CREATED', (action) => {
     store.dispatch(storyCreated(action));
   })

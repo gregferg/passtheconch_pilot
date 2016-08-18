@@ -36,6 +36,8 @@ function determineRequest(store, action){
 function processNewStory(store, action) {
   const clientSocket = action.socket;
 
+  clientSocket.emit('NUM_USERS_ONLINE', {type: 'NUM_USERS_ONLINE', numOfUsersOnline: store.state.users.numOnline});
+
   if (newStoryQueue.length >= 1) {
     if (newStoryQueue[newStoryQueue.length - 1].user === action.user) {
       return;
@@ -52,7 +54,11 @@ function processNewStory(store, action) {
 
     const prompt = createAPrompt();
 
-    clientSocket.emit('STORY_CREATED', { storyId, turn: true, prompt });
+    clientSocket.emit('STORY_CREATED', {
+      storyId,
+      turn: true,
+      prompt
+     });
     OtherClientSocket.emit('STORY_CREATED', { storyId, turn: false, prompt });
   } else {
     newStoryQueue.push({ user: action.user, socket: clientSocket });
@@ -79,11 +85,26 @@ function processUpdateStory(store, action) {
   }
 }
 
+function checkIfUserIsInNewStoryQueue(user) {
+  for (var i = 0; i < newStoryQueue.length; i++) {
+    if (newStoryQueue[i].user === user) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
 function processRemoveSession(store, action) {
   //action === { user: userID }
   //find other user's socket
 
   action.users = [action.user]
+
+  var indexOfUserInQueue = checkIfUserIsInNewStoryQueue(action.user);
+  if (indexOfUserInQueue !== -1) {
+    newStoryQueue.splice(indexOfUserInQueue, 1);
+  }
 
   if (store.state.users[action.user].currentStory) {
     const storyId = store.state.users[action.user].currentStory.id;
@@ -93,7 +114,7 @@ function processRemoveSession(store, action) {
     currentStoriesAndTheirSockets[storyId].forEach(function(socket) {
       socket.emit('OTHER_USER_LEFT', { userWhoLeft: action.user })
     });
-}
-  //remove story and user from store
+  }
+
   store.updateStore(action);
 }

@@ -28649,6 +28649,8 @@
 	      return (0, _session.setSession)(state, action);
 	    case 'NEW_STORY_REQUEST':
 	      return (0, _story.searchingForStory)(state, action);
+	    case 'NUM_USERS_ONLINE':
+	      return (0, _story.setNumOfOnlineUsers)(state, action);
 	    case 'STORY_CREATED':
 	      return (0, _story.storyCreated)(state, action);
 	    case 'UPDATE_SETENCE':
@@ -28714,6 +28716,7 @@
 	  value: true
 	});
 	exports.searchingForStory = searchingForStory;
+	exports.setNumOfOnlineUsers = setNumOfOnlineUsers;
 	exports.storyCreated = storyCreated;
 	exports.setUpdatedStory = setUpdatedStory;
 	exports.updateSetence = updateSetence;
@@ -28726,13 +28729,19 @@
 	  return newState;
 	}
 	
+	function setNumOfOnlineUsers(state, action) {
+	  var newState = Object.assign({}, state, { numOfUsersOnline: action.numOfUsersOnline });
+	  return newState;
+	}
+	
 	function storyCreated(state, action) {
 	  var changesToStory = {
 	    sentences: [],
 	    id: action.storyId,
 	    turn: action.turn,
 	    prompt: action.prompt,
-	    otherUserLeft: false
+	    otherUserLeft: false,
+	    finished: false
 	  };
 	  var createdStory = Object.assign({}, state.story, changesToStory);
 	
@@ -28881,6 +28890,10 @@
 	function addListeners(socket, store) {
 	  socket.on('SET_USER', function (action) {
 	    store.dispatch((0, _remote.setSession)(action));
+	  });
+	
+	  socket.on('NUM_USERS_ONLINE', function (action) {
+	    store.dispatch(action);
 	  });
 	
 	  socket.on('STORY_CREATED', function (action) {
@@ -36667,7 +36680,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_navbar2.default, { startNavigating: this.startNavigating }),
+	      _react2.default.createElement(_navbar2.default, { startNavigating: this.startNavigating, url: this.props.location.pathname }),
 	      childrenWithNavProps
 	    );
 	  }
@@ -36720,7 +36733,7 @@
 	  displayName: 'NavBar',
 	
 	  navigateHome: function navigateHome() {
-	    if (timeoutSet) {
+	    if (timeoutSet || this.props.url === "/") {
 	      return;
 	    }
 	    this.props.startNavigating();
@@ -36734,7 +36747,7 @@
 	  navigatePlay: function navigatePlay() {
 	    var _this = this;
 	
-	    if (timeoutSet) {
+	    if (timeoutSet || this.props.url === "/searching" || this.props.url === "/story") {
 	      return;
 	    }
 	    this.props.startNavigating();
@@ -36747,7 +36760,7 @@
 	    }, 800);
 	  },
 	  navigateAbout: function navigateAbout() {
-	    if (timeoutSet) {
+	    if (timeoutSet || this.props.url === "/about") {
 	      return;
 	    }
 	    this.props.startNavigating();
@@ -37222,7 +37235,6 @@
 	    }
 	  },
 	  render: function render() {
-	    console.log(this.props.isNavigating);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'search-container animate-fade-and-slide1' },
@@ -37234,6 +37246,13 @@
 	          null,
 	          'Searching ',
 	          this.state.searchingStatus
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'animate-fade-and-slide2' },
+	          'There are currently ',
+	          this.props.numOfUsersOnline,
+	          ' users online.'
 	        )
 	      )
 	    );
@@ -37242,6 +37261,7 @@
 	
 	function mapStateToProps(state) {
 	  return {
+	    numOfUsersOnline: state.numOfUsersOnline,
 	    search: state.searching,
 	    story: state.story,
 	    errors: state.errors
@@ -37337,7 +37357,7 @@
 	    this.setState({ firstRender: true });
 	  },
 	  renderAddToStoryOrOtherTurn: function renderAddToStoryOrOtherTurn() {
-	    if (this.props.story.otherUserLeft) {
+	    if (this.props.story.otherUserLeft || this.props.story.finished) {
 	      return;
 	    } else {
 	      return this.state.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender }));
@@ -37558,21 +37578,20 @@
 	  decrementTimer: function decrementTimer() {
 	    var _this = this;
 	
-	    if (!timeoutSet) {
+	    if (!timeoutSet && this.props.story.timer.timeLeft > 0) {
 	      timeoutSet = true;
-	      if (this.props.story.timer.timeLeft > 0) {
-	        this.props.reduceTimer();
 	
-	        setTimeout(function () {
-	          timeoutSet = false;
-	        }, 1000);
+	      this.props.reduceTimer();
 	
-	        timerTimeout = setTimeout(function () {
-	          _this.decrementTimer();
-	        }, 1000);
+	      setTimeout(function () {
+	        timeoutSet = false;
+	      }, 1000);
 	
-	        this.props.setReduceTimerTimeout(timerTimeout);
-	      }
+	      timerTimeout = setTimeout(function () {
+	        _this.decrementTimer();
+	      }, 1000);
+	
+	      this.props.setReduceTimerTimeout(timerTimeout);
 	    }
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
@@ -37583,9 +37602,15 @@
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.decrementTimer();
+	    var _this2 = this;
+	
+	    setTimeout(function () {
+	      _this2.decrementTimer();
+	    }, 2000);
 	  },
 	  render: function render() {
+	
+	    var timeLeft = this.props.story.timer.timeLeft > 0 ? this.props.story.timer.timeLeft : 0;
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -37593,7 +37618,7 @@
 	        'p',
 	        null,
 	        'Time Left: ',
-	        this.props.story.timer.timeLeft
+	        timeLeft
 	      )
 	    );
 	  }

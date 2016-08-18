@@ -7,7 +7,9 @@ import {
   setFinishedStory,
   userLeft,
   reduceTimer,
-  setReduceTimerTimeout} from './reducers/story.js';
+  setReduceTimerTimeout,
+  setNumOfOnlineUsers
+} from './reducers/story.js';
 
 
 const DEFAULT_STATE = {
@@ -33,6 +35,8 @@ export default function reducer(state = DEFAULT_STATE, action) {
       return setSession(state, action);
     case 'NEW_STORY_REQUEST':
       return searchingForStory(state, action);
+    case 'NUM_USERS_ONLINE':
+      return setNumOfOnlineUsers(state, action);
     case 'STORY_CREATED':
       return storyCreated(state, action);
     case 'UPDATE_SETENCE':

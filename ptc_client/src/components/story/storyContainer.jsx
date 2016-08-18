@@ -39,7 +39,7 @@ export const Story = React.createClass({
     this.setState({ firstRender: true });
   },
   renderAddToStoryOrOtherTurn: function() {
-    if (this.props.story.otherUserLeft) {
+    if (this.props.story.otherUserLeft || this.props.story.finished) {
       return;
     } else {
       return this.state.turn ? <AddToStory {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> : <NotYourTurn {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/>;

@@ -5,21 +5,20 @@ var timerTimeout;
 
 export default React.createClass({
   decrementTimer: function() {
-    if (!timeoutSet) {
+    if (!timeoutSet && this.props.story.timer.timeLeft > 0) {
       timeoutSet = true;
-      if (this.props.story.timer.timeLeft > 0) {
-        this.props.reduceTimer();
 
-        setTimeout(() => {
-          timeoutSet = false;
-        }, 1000);
+      this.props.reduceTimer();
 
-        timerTimeout = setTimeout(() => {
-          this.decrementTimer()
-        }, 1000);
+      setTimeout(() => {
+        timeoutSet = false;
+      }, 1000);
 
-        this.props.setReduceTimerTimeout(timerTimeout);
-      }
+      timerTimeout = setTimeout(() => {
+        this.decrementTimer()
+      }, 1000);
+
+      this.props.setReduceTimerTimeout(timerTimeout);
     }
   },
   componentWillReceiveProps: function(newProps) {
@@ -34,12 +33,16 @@ export default React.createClass({
     }
   },
   componentDidMount: function() {
-    this.decrementTimer();
+    setTimeout(() => {
+      this.decrementTimer();
+    }, 2000)
   },
   render: function() {
+
+    const timeLeft = this.props.story.timer.timeLeft > 0 ? this.props.story.timer.timeLeft : 0;
     return (
       <div>
-        <p>Time Left: {this.props.story.timer.timeLeft}</p>
+        <p>Time Left: {timeLeft}</p>
       </div>
     );
   }

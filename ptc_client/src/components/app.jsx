@@ -51,7 +51,7 @@ export const App = React.createClass({
 
     return (
       <div>
-        <NavBar startNavigating={this.startNavigating}/>
+        <NavBar startNavigating={this.startNavigating} url={this.props.location.pathname}/>
         {childrenWithNavProps}
       </div>
     );

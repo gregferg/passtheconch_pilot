@@ -12,7 +12,7 @@ var timeoutSet = false;
 
 export const NavBar = React.createClass({
   navigateHome: function() {
-    if (timeoutSet) { return ; }
+    if (timeoutSet || this.props.url === "/") { return ; }
     this.props.startNavigating();
 
     timeoutSet = true;
@@ -22,7 +22,7 @@ export const NavBar = React.createClass({
     }, 800);
   },
   navigatePlay: function() {
-    if (timeoutSet) { return ; }
+    if (timeoutSet || this.props.url === "/searching" || this.props.url === "/story") { return ; }
     this.props.startNavigating();
 
     timeoutSet = true;
@@ -33,7 +33,7 @@ export const NavBar = React.createClass({
     }, 800);
   },
   navigateAbout: function() {
-    if (timeoutSet) { return ; }
+    if (timeoutSet || this.props.url === "/about") { return ; }
     this.props.startNavigating();
 
     timeoutSet = true;

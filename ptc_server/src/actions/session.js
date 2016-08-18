@@ -21,11 +21,16 @@ export function createUniqueRandomStringID(state) {
 export function createSession(state, action) {
   const users = Object.assign({}, state.users, {[action.id]: {}});
 
+  users['numOnline'] += 1
+
+
   return Object.assign({}, state, {users: users});
 }
 
 export function removeSession(state, action) {
   const users = Object.assign({}, state.users);
+
+  users['numOnline'] -= 1
 
   if (users[action.user].currentStory) {
     const stories = Object.assign({}, state.stories);

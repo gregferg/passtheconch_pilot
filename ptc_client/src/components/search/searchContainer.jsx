@@ -72,11 +72,11 @@ export const Search = React.createClass({
     }
   },
   render: function() {
-    console.log(this.props.isNavigating);
     return (
       <div className="search-container animate-fade-and-slide1">
         <div className={this.props.generateClassName("search", this.props.isNavigating)}>
           <h1>Searching {this.state.searchingStatus}</h1>
+          <p className="animate-fade-and-slide2">There are currently {this.props.numOfUsersOnline} users online.</p>
         </div>
       </div>
     );
@@ -86,6 +86,7 @@ export const Search = React.createClass({
 
 function mapStateToProps(state) {
   return {
+    numOfUsersOnline: state.numOfUsersOnline,
     search: state.searching,
     story: state.story,
     errors: state.errors
