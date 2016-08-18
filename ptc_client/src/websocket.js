@@ -2,8 +2,8 @@ import io from 'socket.io-client';
 import {setSession, storyCreated, storyUpdated, storyFinished, displayErrors}
 from './actions/remote';
 
-export const socket = io.connect(`${location.protocol}//${location.hostname}:8090`);
-// export const socket = io.connect(`${location.protocol}//${location.hostname}`);
+// export const socket = io.connect(`${location.protocol}//${location.hostname}:8090`);
+export const socket = io();
 
 export function addListeners(socket, store) {
   socket.on('SET_USER', (action) => {
