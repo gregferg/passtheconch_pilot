@@ -16,6 +16,13 @@
       "react"
     ]
   },
+  "eslintConfig": {
+    "env": {
+      "es6": true
+    }
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.11.4",
