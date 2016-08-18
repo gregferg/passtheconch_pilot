@@ -27,6 +27,9 @@ function determineRequest(store, action){
     case 'UPDATE_STORY_REQUEST':
       processUpdateStory(store, action);
       break;
+    case 'REMOVE_SESSION':
+      processRemoveSession(store, action);
+      break;
   }
 }
 
@@ -74,4 +77,23 @@ function processUpdateStory(store, action) {
       socket.emit('STORY_UPDATED', { updatedStory: updatedStory })
     });
   }
+}
+
+function processRemoveSession(store, action) {
+  //action === { user: userID }
+  //find other user's socket
+
+  action.users = [action.user]
+
+  if (store.state.users[action.user].currentStory) {
+    const storyId = store.state.users[action.user].currentStory.id;
+
+    action.users = (store.state.stories[storyId].users);
+
+    currentStoriesAndTheirSockets[storyId].forEach(function(socket) {
+      socket.emit('OTHER_USER_LEFT', { userWhoLeft: action.user })
+    });
+}
+  //remove story and user from store
+  store.updateStore(action);
 }

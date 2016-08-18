@@ -59,11 +59,6 @@ export function startServer(store) {
 
 
     socket.on('action', (action) => {
-      console.log(socketTimetout);
-      clearTimeout(socketTimetout);
-
-      console.log(action);
-      console.log('shit happened');
       action.socket = socket;
       processRequest(store, action);
       console.log(store.state);
@@ -73,18 +68,13 @@ export function startServer(store) {
       //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification, also to remove the story that the user was working on.
       const deleteUserSession = {
         type: 'REMOVE_SESSION',
-        id: clientSockets[userToDisconnect]
+        user: userToDisconnect.user
       }
 
-        disconnectAfterTimeout(store, deleteUserSession);
-        console.log(userToDisconnect);
+        console.log(userToDisconnect.user);
         console.log("user left");
-        delete clientSockets[userToDisconnect];
+        processRequest(store, deleteUserSession);
+        delete clientSockets[userToDisconnect.user];
     });
   });
-}
-
-
-function disconnectAfterTimeout(store, action) {
-  store.updateStore(action)
 }

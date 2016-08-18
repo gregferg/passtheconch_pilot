@@ -1,5 +1,6 @@
 import NavBar from './navbar';
 import React from 'react';
+import {connect} from 'react-redux';
 
 import generateClassName from './generateClassName';
 
@@ -14,7 +15,7 @@ from the window. It mainly works.
 import {SOCKET} from '../index.jsx';
 
 window.onbeforeunload = function (e) {
-  SOCKET.emit('disconnectMe', {currentUser: currentUser});
+  SOCKET.emit('disconnectMe', {user: currentUser});
 
   for (var i = 0; i < 1000; i++) {
     console.log("user disconnecting");
@@ -24,7 +25,7 @@ window.onbeforeunload = function (e) {
 
 var currentUser;
 
-export default React.createClass({
+export const App = React.createClass({
   getInitialState: function() {
     return { isNavigating: false };
   },
@@ -37,7 +38,7 @@ export default React.createClass({
     this.setState({ isNavigating: false });
   },
   componentWillReceiveProps(newProps) {
-    user = newProps.user;
+    currentUser = newProps.user;
   },
   render: function() {
     const childrenWithNavProps = React.Children.map(this.props.children,
@@ -56,3 +57,15 @@ export default React.createClass({
     );
   }
 });
+
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+
+const AppContainer = connect(mapStateToProps)(App);
+
+export default AppContainer

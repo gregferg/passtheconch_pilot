@@ -28663,6 +28663,8 @@
 	      return (0, _story.setReduceTimerTimeout)(state, action);
 	    case 'ERROR':
 	      return (0, _session.setErrors)(state, action);
+	    case 'OTHER_USER_LEFT':
+	      return (0, _story.userLeft)(state, action);
 	    case 'CLEAR_ERRORS_TIMEOUT':
 	      return (0, _session.clearErrors)(state, action);
 	    default:
@@ -28718,6 +28720,7 @@
 	exports.setFinishedStory = setFinishedStory;
 	exports.reduceTimer = reduceTimer;
 	exports.setReduceTimerTimeout = setReduceTimerTimeout;
+	exports.userLeft = userLeft;
 	function searchingForStory(state, action) {
 	  var newState = Object.assign({}, state, { searching: true });
 	  return newState;
@@ -28728,7 +28731,8 @@
 	    sentences: [],
 	    id: action.storyId,
 	    turn: action.turn,
-	    prompt: action.prompt
+	    prompt: action.prompt,
+	    otherUserLeft: false
 	  };
 	  var createdStory = Object.assign({}, state.story, changesToStory);
 	
@@ -28803,6 +28807,31 @@
 	  var newState = Object.assign({}, state, { story: updatedStory });
 	  return newState;
 	}
+	
+	function userLeft(state, action) {
+	  clearTimeout(state.story.timer.timeout);
+	
+	  var allSentences;
+	  if (state.story.sentences) {
+	    allSentences = Object.assign({}, { sentences: state.story.sentences }).sentences;
+	  } else {
+	    allSentences = [""];
+	  }
+	
+	  var updatedStory = {
+	    id: null,
+	    sentences: allSentences,
+	    sentenceToAdd: "",
+	    otherUserLeft: true,
+	    turn: false,
+	    finished: true,
+	    prompt: state.story.prompt,
+	    timer: { timeLeft: 60, timerTimeout: null }
+	  };
+	
+	  var newState = Object.assign({}, state, { story: updatedStory });
+	  return newState;
+	}
 
 /***/ },
 /* 263 */
@@ -28864,6 +28893,11 @@
 	
 	  socket.on('FINISHED_STORY', function (action) {
 	    store.dispatch((0, _remote.storyFinished)(action));
+	  });
+	
+	  socket.on('OTHER_USER_LEFT', function (action) {
+	    action.type = 'OTHER_USER_LEFT';
+	    store.dispatch(action);
 	  });
 	
 	  socket.on('ERROR', function (action) {
@@ -36564,6 +36598,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.App = undefined;
 	
 	var _navbar = __webpack_require__(317);
 	
@@ -36572,6 +36607,8 @@
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(253);
 	
 	var _generateClassName = __webpack_require__(327);
 	
@@ -36582,7 +36619,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.onbeforeunload = function (e) {
-	  _index.SOCKET.emit('disconnectMe', { currentUser: currentUser });
+	  _index.SOCKET.emit('disconnectMe', { user: currentUser });
 	
 	  for (var i = 0; i < 1000; i++) {
 	    console.log("user disconnecting");
@@ -36598,8 +36635,8 @@
 	
 	var currentUser;
 	
-	exports.default = _react2.default.createClass({
-	  displayName: 'app',
+	var App = exports.App = _react2.default.createClass({
+	  displayName: 'App',
 	
 	  getInitialState: function getInitialState() {
 	    return { isNavigating: false };
@@ -36613,7 +36650,7 @@
 	    this.setState({ isNavigating: false });
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-	    user = newProps.user;
+	    currentUser = newProps.user;
 	  },
 	
 	  render: function render() {
@@ -36635,6 +36672,16 @@
 	    );
 	  }
 	});
+	
+	function mapStateToProps(state) {
+	  return {
+	    user: state.user
+	  };
+	}
+	
+	var AppContainer = (0, _reactRedux.connect)(mapStateToProps)(App);
+	
+	exports.default = AppContainer;
 
 /***/ },
 /* 317 */
@@ -37289,6 +37336,13 @@
 	  componentDidMount: function componentDidMount() {
 	    this.setState({ firstRender: true });
 	  },
+	  renderAddToStoryOrOtherTurn: function renderAddToStoryOrOtherTurn() {
+	    if (this.props.story.otherUserLeft) {
+	      return;
+	    } else {
+	      return this.state.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender }));
+	    }
+	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -37307,8 +37361,13 @@
 	          this.props.story.prompt
 	        ),
 	        _react2.default.createElement(_currentStory2.default, this.props),
-	        this.state.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })),
-	        this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Make another story', className: 'story animate-fade-and-slide1' }))
+	        this.renderAddToStoryOrOtherTurn(),
+	        this.props.story.otherUserLeft ? _react2.default.createElement(
+	          'p',
+	          { className: 'story-other-user-left animate-fade-and-slide1' },
+	          'Other User left..'
+	        ) : _react2.default.createElement('p', null),
+	        this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' }))
 	      )
 	    );
 	  }
@@ -37400,7 +37459,6 @@
 	    if (code === 13) {
 	      e.preventDefault();
 	
-	      console.log("enterkey pressed");
 	      this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user);
 	    }
 	  },
@@ -37421,7 +37479,6 @@
 	  render: function render() {
 	    var _this = this;
 	
-	    console.log('new render');
 	    return _react2.default.createElement(
 	      'div',
 	      { className: this.generateAddToStoryClassName("story-add-to", "animate-fade-and-slide4") },
@@ -37505,23 +37562,23 @@
 	      timeoutSet = true;
 	      if (this.props.story.timer.timeLeft > 0) {
 	        this.props.reduceTimer();
+	
+	        setTimeout(function () {
+	          timeoutSet = false;
+	        }, 1000);
+	
+	        timerTimeout = setTimeout(function () {
+	          _this.decrementTimer();
+	        }, 1000);
+	
+	        this.props.setReduceTimerTimeout(timerTimeout);
 	      }
-	
-	      setTimeout(function () {
-	        timeoutSet = false;
-	      }, 1000);
-	
-	      timerTimeout = setTimeout(function () {
-	        _this.decrementTimer();
-	      }, 1000);
-	
-	      this.props.setReduceTimerTimeout(timerTimeout);
 	    }
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
 	    if (newProps.story.timer.timeLeft === 0 && this.props.story.turn) {
 	      this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user);
-	    } else if (!timeoutSet) {
+	    } else if (!timeoutSet && newProps.story.timer.timeLeft > 0) {
 	      this.decrementTimer();
 	    }
 	  },
@@ -37639,6 +37696,11 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: this.generateNotYourTurnClassName("story-not-your-turn", "animate-fade-and-slide4") },
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Your Partner\'s '
+	      ),
 	      _react2.default.createElement(_timer2.default, this.props)
 	    );
 	  }

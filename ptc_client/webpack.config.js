@@ -24,14 +24,14 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  devServer: {
-    contentBase: './',
-    hot: true
-  },
   devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin("style.css", {allChunks: false})
   ]
 };
 
+// devServer: {
+//   contentBase: './',
+//   hot: true
+// },
 // new webpack.HotModuleReplacementPlugin(),

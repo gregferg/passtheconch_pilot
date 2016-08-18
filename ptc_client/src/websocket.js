@@ -21,6 +21,11 @@ export function addListeners(socket, store) {
     store.dispatch(storyFinished(action));
   })
 
+  socket.on('OTHER_USER_LEFT', (action) => {
+    action.type = 'OTHER_USER_LEFT'
+    store.dispatch(action);
+  })
+
   socket.on('ERROR', (action) => {
     store.dispatch(displayErrors(action));
   })

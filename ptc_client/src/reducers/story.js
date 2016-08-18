@@ -8,7 +8,8 @@ export function storyCreated(state, action) {
     sentences: [],
     id: action.storyId,
     turn: action.turn,
-    prompt: action.prompt
+    prompt: action.prompt,
+    otherUserLeft: false
   }
   const createdStory = Object.assign({}, state.story, changesToStory)
 
@@ -84,4 +85,30 @@ export function setReduceTimerTimeout(state, action) {
 
   const newState = Object.assign({}, state, {story: updatedStory});
   return newState;
+}
+
+export function userLeft(state, action) {
+  clearTimeout(state.story.timer.timeout);
+
+  var allSentences;
+  if (state.story.sentences) {
+    allSentences = Object.assign({}, { sentences: state.story.sentences}).sentences;
+  } else {
+    allSentences = [""];
+  }
+
+  const updatedStory = {
+      id: null,
+      sentences: allSentences,
+      sentenceToAdd: "",
+      otherUserLeft: true,
+      turn: false,
+      finished: true,
+      prompt: state.story.prompt,
+      timer: {timeLeft: 60, timerTimeout: null}
+  }
+
+  const newState = Object.assign({}, state, {story: updatedStory});
+  return newState;
+
 }

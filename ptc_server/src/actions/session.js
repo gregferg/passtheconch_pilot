@@ -25,9 +25,22 @@ export function createSession(state, action) {
 }
 
 export function removeSession(state, action) {
-
   const users = Object.assign({}, state.users);
-  delete users[action.id];
 
+  if (users[action.user].currentStory) {
+    const stories = Object.assign({}, state.stories);
+
+    const storyIdToRemove = users[action.user].currentStory.id;
+
+    delete stories[storyIdToRemove]
+    action.users.forEach((userToRemoveCurrentStory) => {
+      delete users[userToRemoveCurrentStory].currentStory;
+    })
+    delete users[action.user];
+
+    return Object.assign({}, state, {users: users, stories: stories});
+  }
+
+  delete users[action.user];
   return Object.assign({}, state, {users: users});
 }

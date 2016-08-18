@@ -86,6 +86,8 @@ export default function validate(state, action) {
 
       return response;
 
+    case "REMOVE_SESSION":
+      return response;
     default:
       response.valid = false;
       response.errors.push('Not a valid request')

@@ -1,5 +1,13 @@
 import {setSession, setErrors, clearErrors} from './reducers/session.js';
-import {searchingForStory, storyCreated, updateSetence, setUpdatedStory, setFinishedStory, reduceTimer, setReduceTimerTimeout} from './reducers/story.js';
+import {
+  searchingForStory,
+  storyCreated,
+  updateSetence,
+  setUpdatedStory,
+  setFinishedStory,
+  userLeft,
+  reduceTimer,
+  setReduceTimerTimeout} from './reducers/story.js';
 
 
 const DEFAULT_STATE = {
@@ -39,6 +47,8 @@ export default function reducer(state = DEFAULT_STATE, action) {
       return setReduceTimerTimeout(state, action);
     case 'ERROR':
       return setErrors(state, action);
+    case 'OTHER_USER_LEFT':
+      return userLeft(state, action);
     case 'CLEAR_ERRORS_TIMEOUT':
       return clearErrors(state, action);
     default:

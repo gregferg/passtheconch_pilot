@@ -19,7 +19,6 @@ export default React.createClass({
     if (code === 13) {
       e.preventDefault();
 
-      console.log("enterkey pressed");
       this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user)
     }
   },
@@ -38,7 +37,6 @@ export default React.createClass({
     }
   },
   render: function() {
-    console.log('new render');
     return (
       <div className={this.generateAddToStoryClassName("story-add-to", "animate-fade-and-slide4")}>
         <div className="errors">

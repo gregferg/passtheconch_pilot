@@ -9,17 +9,17 @@ export default React.createClass({
       timeoutSet = true;
       if (this.props.story.timer.timeLeft > 0) {
         this.props.reduceTimer();
+
+        setTimeout(() => {
+          timeoutSet = false;
+        }, 1000);
+
+        timerTimeout = setTimeout(() => {
+          this.decrementTimer()
+        }, 1000);
+
+        this.props.setReduceTimerTimeout(timerTimeout);
       }
-
-      setTimeout(() => {
-        timeoutSet = false;
-      }, 1000);
-
-      timerTimeout = setTimeout(() => {
-        this.decrementTimer()
-      }, 1000);
-
-      this.props.setReduceTimerTimeout(timerTimeout);
     }
   },
   componentWillReceiveProps: function(newProps) {
@@ -29,7 +29,7 @@ export default React.createClass({
         this.props.story.sentenceToAdd,
         this.props.user
       )
-    } else if (!timeoutSet) {
+    } else if (!timeoutSet && newProps.story.timer.timeLeft > 0) {
       this.decrementTimer();
     }
   },
