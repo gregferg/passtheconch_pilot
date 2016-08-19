@@ -16,7 +16,7 @@ function validateUsersTurn(state, user) {
 }
 
 function validateSentenceLength(action) {
-  return action.sentence.length < 100;
+  return action.sentence.length <= 100;
 }
 
 export default function validate(state, action) {

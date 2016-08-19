@@ -54,11 +54,11 @@ export const Search = React.createClass({
   componentWillReceiveProps: function(newProps) {
     if (!this.props.story.id && newProps.story.id) {
       navigateTimout = true;
-      clearTimeout(animateTimeout);
 
       this.props.startNavigating();
 
       setTimeout(() => {
+        clearTimeout(animateTimeout);
         hashHistory.push('/story')
       }, 800);
     }
@@ -72,6 +72,7 @@ export const Search = React.createClass({
     }
   },
   render: function() {
+    console.log(this.props);
     return (
       <div className="search-container animate-fade-and-slide1">
         <div className={this.props.generateClassName("search", this.props.isNavigating)}>

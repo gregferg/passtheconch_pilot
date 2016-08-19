@@ -102,6 +102,10 @@
 	
 	var _storyContainer2 = _interopRequireDefault(_storyContainer);
 	
+	var _howToPlay = __webpack_require__(350);
+	
+	var _howToPlay2 = _interopRequireDefault(_howToPlay);
+	
 	var _navbar = __webpack_require__(317);
 	
 	var _navbar2 = _interopRequireDefault(_navbar);
@@ -121,6 +125,7 @@
 	  { path: '/', component: _app2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _splash2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _about2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'howtoplay', component: _howToPlay2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'searching', component: _searchContainer2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'story', component: _storyContainer2.default })
 	);
@@ -28741,7 +28746,8 @@
 	    turn: action.turn,
 	    prompt: action.prompt,
 	    otherUserLeft: false,
-	    finished: false
+	    finished: false,
+	    timer: { timeLeft: 65, timerTimeout: null }
 	  };
 	  var createdStory = Object.assign({}, state.story, changesToStory);
 	
@@ -28885,7 +28891,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// export const socket = io.connect(`${location.protocol}//${location.hostname}:8090`);
 	var socket = exports.socket = (0, _socket2.default)();
 	
 	function addListeners(socket, store) {
@@ -37218,11 +37223,11 @@
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
 	    if (!this.props.story.id && newProps.story.id) {
 	      navigateTimout = true;
-	      clearTimeout(animateTimeout);
 	
 	      this.props.startNavigating();
 	
 	      setTimeout(function () {
+	        clearTimeout(animateTimeout);
 	        _reactRouter.hashHistory.push('/story');
 	      }, 800);
 	    }
@@ -37236,6 +37241,7 @@
 	    }
 	  },
 	  render: function render() {
+	    console.log(this.props);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'search-container animate-fade-and-slide1' },
@@ -37744,6 +37750,256 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 348 */,
+/* 349 */,
+/* 350 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.HowToPlay = undefined;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _currentStory = __webpack_require__(338);
+	
+	var _currentStory2 = _interopRequireDefault(_currentStory);
+	
+	var _beginNewStory = __webpack_require__(318);
+	
+	var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
+	
+	var _addToStory = __webpack_require__(339);
+	
+	var _addToStory2 = _interopRequireDefault(_addToStory);
+	
+	var _notYourTurn = __webpack_require__(344);
+	
+	var _notYourTurn2 = _interopRequireDefault(_notYourTurn);
+	
+	var _searchContainer = __webpack_require__(334);
+	
+	var _howToPlayTextBox = __webpack_require__(354);
+	
+	var _howToPlayTextBox2 = _interopRequireDefault(_howToPlayTextBox);
+	
+	var _reactRedux = __webpack_require__(253);
+	
+	var _index = __webpack_require__(323);
+	
+	var _index2 = _interopRequireDefault(_index);
+	
+	var _reactRouter = __webpack_require__(176);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	__webpack_require__(352);
+	
+	var howToPlayText = ["Welcome! First you'll have to find someone to play with...", "Ahh looks like we've found someone!", "Every story begins with a randomly generated prompt, the one for this story is displayed right above!", "Right now it's our partner's turn, we're just waiting for him to start the first sentence", "Ahh they responsed, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch'", "Nice, now we wait again for our partner to add their sentence to our story.", "You've probably noticed that the number of sentences left has gone down, each story currently has a maxium of 10 sentences", "Can you tell that you're playing our incredible AI? Yeah, we know, it's pretty sweet. Anyways since you're playing just playing a bot, you can either finish this story, or click play to make a story with a random person on the internet!"];
+	
+	var _userInput = false;
+	
+	var HowToPlay = exports.HowToPlay = _react2.default.createClass({
+	  displayName: 'HowToPlay',
+	
+	  getInitialState: function getInitialState() {
+	    return { searching: true, idx: 0, story: { turn: false, sentences: [] } };
+	  },
+	  componentWillMount: function componentWillMount() {},
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {},
+	  turnChange: function turnChange() {},
+	  componentDidMount: function componentDidMount() {},
+	  userInput: function userInput() {
+	    _userInput = true;
+	    this.nextStep();
+	  },
+	  nextStep: function nextStep() {
+	    var _this = this;
+	
+	    if (this.state.idx > 4 && _userInput === false) {
+	      return;
+	    }
+	
+	    setTimeout(function () {
+	      _this.setState({ idx: _this.state.idx + 1 });
+	      _userInput = false;
+	
+	      if (_this.state.idx === 2) {
+	        _this.props.startNavigating();
+	
+	        setTimeout(function () {
+	          _this.setState({ searching: false });
+	        }, 800);
+	      }
+	
+	      if (_this.state.idx === 4) {
+	        setTimeout(function () {
+	          _this.setState({ story: { turn: true, sentences: ["It was a dark and story night on the island, piggy wondered if this was the night he'd meet his demise"] } });
+	        }, 4000);
+	      }
+	    }, 3000);
+	  },
+	  incrementText: function incrementText() {},
+	  renderSearchOrStory: function renderSearchOrStory() {
+	    if (this.state.searching) {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_searchContainer.Search, this.props),
+	        _react2.default.createElement(_howToPlayTextBox2.default, { finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] })
+	      );
+	    } else {
+	      {
+	        this.state.story.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender }));
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          { className: 'animate-fade-and-slide1' },
+	          'Story'
+	        ),
+	        _react2.default.createElement(
+	          'h3',
+	          { className: 'animate-fade-and-slide2' },
+	          'Normal Prompt goes here!'
+	        ),
+	        _react2.default.createElement(_howToPlayTextBox2.default, { finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] }),
+	        _react2.default.createElement(_currentStory2.default, { story: this.state.story }),
+	        this.state.idx > 6 ? _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' })) : _react2.default.createElement('p', null)
+	      );
+	    }
+	  },
+	  finshedRenderingText: function finshedRenderingText() {},
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'how-to-play-container' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: this.props.generateClassName("how-to-play", this.props.isNavigating) },
+	        this.renderSearchOrStory()
+	      )
+	    );
+	  }
+	});
+	
+	function mapStateToProps(state) {
+	  return {
+	    numOfUsersOnline: state.numOfUsersOnline,
+	    search: true,
+	    story: { id: false },
+	    errors: state.errors
+	  };
+	}
+	
+	var HowToPlayContainer = (0, _reactRedux.connect)(mapStateToProps, _index2.default)(HowToPlay);
+	
+	exports.default = HowToPlayContainer;
+
+/***/ },
+/* 351 */,
+/* 352 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 353 */,
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var textToRender = "";
+	var idx = 0;
+	var timeout;
+	
+	function generateRandomTime() {
+	  return Math.floor(Math.random() * 50 + 5);
+	}
+	
+	exports.default = _react2.default.createClass({
+	  displayName: "howToPlayTextBox",
+	
+	  getInitialState: function getInitialState() {
+	    return { text: "" };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    var _this = this;
+	
+	    console.log(newProps);
+	    textToRender = newProps.textToRender;
+	    idx = 0;
+	
+	    timeout = setTimeout(function () {
+	      _this.renderTyping();
+	    }, 2000);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearTimeout(timeout);
+	  },
+	  renderTyping: function renderTyping() {
+	    var _this2 = this;
+	
+	    if (!textToRender) {
+	      return;
+	    }
+	
+	    if (idx === textToRender.length + 1) {
+	      this.props.finshedRenderingText();
+	    } else {
+	      this.setState({ text: textToRender.slice(0, idx) });
+	
+	      if (textToRender[idx] === "!" || textToRender[idx] === ".") {
+	        timeout = setTimeout(function () {
+	          _this2.renderTyping();
+	        }, generateRandomTime() + 500);
+	      } else {
+	        timeout = setTimeout(function () {
+	          _this2.renderTyping();
+	        }, generateRandomTime());
+	      }
+	
+	      idx++;
+	    }
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "how-to-play-textbox-container" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "how-to-play-textbox-container" },
+	        _react2.default.createElement(
+	          "p",
+	          null,
+	          this.state.text
+	        )
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

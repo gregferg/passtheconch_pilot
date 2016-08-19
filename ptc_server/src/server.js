@@ -26,7 +26,6 @@ app.get('/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, '../../ptc_client/style.css'));
 });
 
-// server.listen(8090);
 var server = require('http').createServer(app).listen(port);
 
 var io = ioServer(server, { pingTimeout: 4000, pingInterval: 4000 });
@@ -35,8 +34,6 @@ var clientSockets = {};
 var clientSocketTimeouts = {};
 
 export function startServer(store) {
-  // const io = new Server().attach(8090);
-
   io.on('connection', (socket) => {
     console.log(socket + ' connected');
     var socketTimetout = null;

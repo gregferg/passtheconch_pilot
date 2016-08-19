@@ -15,7 +15,8 @@ export function storyCreated(state, action) {
     turn: action.turn,
     prompt: action.prompt,
     otherUserLeft: false,
-    finished: false
+    finished: false,
+    timer: {timeLeft: 65, timerTimeout: null}
   }
   const createdStory = Object.assign({}, state.story, changesToStory)
 
@@ -98,7 +99,7 @@ export function userLeft(state, action) {
 
   var allSentences;
   if (state.story.sentences) {
-    allSentences = Object.assign({}, { sentences: state.story.sentences}).sentences;
+    allSentences = Object.assign({}, { sentences: state.story.sentences }).sentences;
   } else {
     allSentences = [""];
   }
