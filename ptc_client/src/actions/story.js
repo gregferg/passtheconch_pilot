@@ -14,7 +14,7 @@ export function storyUpdated(action) {
   }
 }
 
-export function updateSetence(sentenceToAdd) {
+export function updateSentence(sentenceToAdd) {
   return {
     type: 'UPDATE_SETENCE',
     sentenceToAdd

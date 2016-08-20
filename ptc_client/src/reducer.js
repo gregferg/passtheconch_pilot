@@ -2,7 +2,7 @@ import {setSession, setErrors, clearErrors} from './reducers/session.js';
 import {
   searchingForStory,
   storyCreated,
-  updateSetence,
+  updateSentence,
   setUpdatedStory,
   setFinishedStory,
   userLeft,
@@ -40,7 +40,7 @@ export default function reducer(state = DEFAULT_STATE, action) {
     case 'STORY_CREATED':
       return storyCreated(state, action);
     case 'UPDATE_SETENCE':
-      return updateSetence(state, action);
+      return updateSentence(state, action);
     case 'SET_UPDATED_STORY':
       return setUpdatedStory(state, action);
     case 'SET_FINISHED_STORY':

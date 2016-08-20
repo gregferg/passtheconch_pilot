@@ -10,7 +10,7 @@ export default React.createClass({
     if (e.target.value[e.target.value.length - 1] === "\n") {
       return ;
     } else {
-      this.props.updateSetence(e.target.value)
+      this.props.updateSentence(e.target.value)
     }
   },
   handleKeyPress: function(e) {

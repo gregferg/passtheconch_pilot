@@ -22,76 +22,205 @@ var howToPlayText = [
   "Ahh looks like we've found someone!",
   "Every story begins with a randomly generated prompt, the one for this story is displayed right above!",
   "Right now it's our partner's turn, we're just waiting for him to start the first sentence",
-  "Ahh they responsed, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch'",
+  "Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!",
   "Nice, now we wait again for our partner to add their sentence to our story.",
   "You've probably noticed that the number of sentences left has gone down, each story currently has a maxium of 10 sentences",
+  "Again we wait! Though probably not for long since our partner seems to be really fast at typing...",
   "Can you tell that you're playing our incredible AI? Yeah, we know, it's pretty sweet. Anyways since you're playing just playing a bot, you can either finish this story, or click play to make a story with a random person on the internet!",
 ];
 
 var userInput = false;
+var requestRecieved = false;
+
+var timeout;
 
 export const HowToPlay = React.createClass({
   getInitialState: function() {
-    return { searching: true, idx: 0, story: { turn: false, sentences: []} };
+    return {
+      searching: true,
+      idx: 0,
+      story: {
+        turn: false,
+        sentences: [],
+        sentenceToAdd: "",
+        timer: {
+          timeLeft: 60
+        }
+      }
+    };
   },
-  componentWillMount: function() {
 
-  },
-  componentWillReceiveProps: function (newProps) {
-
-  },
-  turnChange: function() {
-
-  },
-  componentDidMount: function() {
-
-  },
   userInput: function() {
     userInput = true;
     this.nextStep();
-
-
+  },
+  componentWillUnmount: function() {
+    clearTimeout(timeout);
+    clearTimeout(this.state.story.timer.timeout);
   },
   nextStep: function() {
-    if (this.state.idx > 4 && userInput === false) {
-      return;
-    }
-
-    setTimeout(() => {
-      this.setState({ idx: this.state.idx + 1});
-      userInput = false;
-
-      if (this.state.idx === 2) {
+    switch (this.state.idx) {
+      case 0:
+        this.setState({ idx: 1});
+        break;
+      case 1:
         this.props.startNavigating();
 
-        setTimeout(() => {this.setState({ searching: false })}, 800);
-      }
+        timeout = setTimeout(() => {
+          this.setState({ searching: false, idx: 2 })
+        }, 800);
+        break;
+      case 2:
+        this.setState({ idx: 3});
+        break;
+      case 3:
+        this.setState({ turnIsChanging: true });
 
-      if (this.state.idx === 4) {
-          setTimeout(() => {this.setState({ story: { turn: true, sentences: ["It was a dark and story night on the island, piggy wondered if this was the night he'd meet his demise"]}})}, 4000);
-      }
-    }, 3000)
+        timeout = setTimeout(() => {
+          var story = Object.assign({}, this.state.story);
+          story.sentences = ["It was a dark and story night on the island, piggy wondered if this was the night he'd meet his demise"];
+          story.turn = true;
+          story.timer.timeLeft = 60;
+          this.setState({ story, idx: 4, turnIsChanging: false});
+        }, 800)
+        break;
+      case 4:
+        if (userInput) {
+          this.setState({ idx: 5});
+          userInput = false;
+        }
+        break;
+      case 5:
+        timeout = setTimeout(() => {
+          this.setState({ turnIsChanging: true, idx: 6 });
+
+          timeout = setTimeout(() => {
+            var story = this.state.story;
+            story.turn = true;
+            story.timer.timeLeft = 60;
+            story.sentences.push("ANOTHER THINGS SAID");
+
+            this.setState({
+              turnIsChanging: false,
+              story
+            });
+          }, 2000);
+        }, 3000);
+
+        break;
+      case 6:
+        if (userInput) {
+          userInput = false;
+          this.setState({ turnIsChanging: true, idx: 7});
+
+          timeout = setTimeout(() => {
+            var story = this.state.story;
+            story.turn = false;
+            story.timer.timeLeft = 60;
+            this.setState({
+              turnIsChanging: false,
+              story
+            })
+          }, 2000);
+        }
+        break;
+      case 7:
+        timeout = setTimeout(() => {
+          this.setState({ turnIsChanging: true, idx: 8 });
+
+          timeout = setTimeout(() => {
+            var story = this.state.story;
+            story.turn = true;
+            story.timer.timeLeft = 60;
+            story.sentences.push("What is.... love? Can Robot... love?");
+
+            this.setState({
+              turnIsChanging: false,
+              story
+            });
+          }, 2000);
+        }, 3000);
+        break;
+      case 8:
+        this.setState({ idx: 9});
+        break;
+      default:
+
+    }
   },
-  incrementText: function() {
+  fakeUpdateSentence: function(sentence) {
+    var story = Object.assign({}, this.state.story)
+    story.sentenceToAdd = sentence
+    this.setState({ story });
+  },
+  fakeStoryUpdateStoryRequest: function(id, setenceToAdd) {
+    if (requestRecieved) {
+      return ;
+    }
+
+    requestRecieved = true
+    var story = Object.assign({}, this.state.story);
+    story.sentences.push(setenceToAdd);
+    story.sentenceToAdd = "";
+    this.setState({ story, turnIsChanging: true });
+    this.userInput()
+
+    timeout = setTimeout(() => {
+      story.turn = false;
+      story.timer.timeLeft = 60;
+      requestRecieved = false;
+      this.setState({
+        turnIsChanging: false,
+        story
+      });
+    }, 800);
+  },
+  reduceTimer: function() {
+    var story = Object.assign({}, this.state.story)
+    story.timer.timeLeft = this.state.story.timer.timeLeft - 1
+    this.setState({ story });
+  },
+  setReduceTimerTimeout: function(timeout) {
+    var story = Object.assign({}, this.state.story)
+    story.timer.timeout = timeout
+    this.setState({ story });
   },
   renderSearchOrStory: function() {
     if (this.state.searching) {
       return (
         <div>
           <Search {...this.props}/>
-          <HowToPlayTextBox finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
+          <HowToPlayTextBox className="how-to-play-search-render" finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
         </div>
       );
     } else {
       {this.state.story.turn ? <AddToStory {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> : <NotYourTurn {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/>}
       return (
-        <div>
+        <div className="how-to-play-story-container">
           <h1 className="animate-fade-and-slide1">Story</h1>
-          <h3 className="animate-fade-and-slide2">Normal Prompt goes here!</h3>
+          <p className="animate-fade-and-slide2">Normal Prompt goes here!</p>
           <HowToPlayTextBox finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
           <CurrentStory story={this.state.story} />
+          {this.state.story.turn?
+          <AddToStory
+            story={this.state.story}
+            reduceTimer={this.reduceTimer}
+            setReduceTimerTimeout={this.setReduceTimerTimeout}
+            turnChange={this.state.turnIsChanging}
+            updateSentence={this.fakeUpdateSentence}
+            updateStoryRequest={this.fakeStoryUpdateStoryRequest}
+            firstRender={this.state.firstRender}/>
+          :
+          <NotYourTurn
+            story={this.state.story}
+            reduceTimer={this.reduceTimer}
+            setReduceTimerTimeout={this.setReduceTimerTimeout}
+            turnChange={this.state.turnIsChanging}
+            firstRender={this.state.firstRender}/>
+        }
 
-          {this.state.idx > 6 ? <BeginNewStory {...this.props} buttonTitle="Make another story?" className="story animate-fade-and-slide1"/> : <p></p>}
+
+          {this.state.idx > 8 ? <BeginNewStory {...this.props} buttonTitle="Make a story!" className="story animate-fade-and-slide1"/> : <p></p>}
         </div>
       );
     }
@@ -124,4 +253,4 @@ const HowToPlayContainer = connect(
   Actions
 )(HowToPlay);
 
-export default HowToPlayContainer
+export default HowToPlayContainer;

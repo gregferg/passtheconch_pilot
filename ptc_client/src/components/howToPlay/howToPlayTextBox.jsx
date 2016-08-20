@@ -15,7 +15,10 @@ export default React.createClass({
     return { text: "" };
   },
   componentWillReceiveProps: function (newProps) {
-    console.log(newProps);
+    if (textToRender === newProps.textToRender) {
+      return ;
+    }
+
     textToRender = newProps.textToRender;
     idx = 0;
 
@@ -29,15 +32,20 @@ export default React.createClass({
       return;
     }
 
-    if (idx === textToRender.length + 1) {
-      this.props.finshedRenderingText();
+    if (idx === textToRender.length + 1 && textToRender) {
+      setTimeout(() => {this.props.finshedRenderingText()}, 2000)
     } else {
+
       this.setState({ text: textToRender.slice(0, idx)})
 
-      if (textToRender[idx] === "!" || textToRender[idx] === ".") {
-        timeout = setTimeout(() => {this.renderTyping()}, generateRandomTime() + 500);
+      if (textToRender[idx - 1] === "!" || textToRender[idx - 1] === ".") {
+        timeout = setTimeout(() => {
+          this.renderTyping()
+        }, generateRandomTime() + 500);
       } else {
-        timeout = setTimeout(() => {this.renderTyping()}, generateRandomTime());
+        timeout = setTimeout(() => {
+          this.renderTyping()
+        }, generateRandomTime());
       }
 
       idx++
@@ -46,8 +54,8 @@ export default React.createClass({
   render: function() {
     return (
       <div className="how-to-play-textbox-container">
-        <div className="how-to-play-textbox-container">
-          <p>{this.state.text}</p>
+        <div className="how-to-play-textbox">
+          <h3 className={this.props.className}>{this.state.text}</h3>
         </div>
       </div>
     );

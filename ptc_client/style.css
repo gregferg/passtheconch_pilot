@@ -337,6 +337,37 @@
   font-weight: 100;
   margin-top: 30px;
   width: 134px; }
+.how-to-play-container {
+  width: 100vw;
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.how-to-play-story-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 560px; }
+
+.how-to-play-search-render {
+  margin-left: 10vw; }
+
+.how-to-play-textbox-container {
+  margin-top: 20px; }
+
+.how-to-play-textbox-container {
+  margin-bottom: 10px; }
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -360,6 +391,26 @@ time, mark, audio, video {
 body {
   background-color: black;
   color: white; }
+
+h1 {
+  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px; }
+
+h3 {
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 15px; }
+
+p {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  word-wrap: break-word; }
 
 .fade-in3 {
   opacity: 0;

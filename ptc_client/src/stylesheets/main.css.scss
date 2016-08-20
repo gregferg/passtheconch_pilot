@@ -25,6 +25,30 @@ body {
   color: white;
 }
 
+h1 {
+  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+}
+
+h3 {
+  font-family:'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+p {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  word-wrap: break-word;
+}
+
+
 
 .fade-in3 {
 	opacity: 0;

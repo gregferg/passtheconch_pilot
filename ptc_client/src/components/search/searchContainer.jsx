@@ -22,10 +22,7 @@ export const Search = React.createClass({
       hashHistory.push('/');
       return ;
 
-    } else if (this.props.story.id !== null) {
-
     } else {
-
       numOfPeriods++
       animateTimeout = setTimeout(this.animateSeaching, 500)
       if (numOfPeriods === 4) {
@@ -72,7 +69,6 @@ export const Search = React.createClass({
     }
   },
   render: function() {
-    console.log(this.props);
     return (
       <div className="search-container animate-fade-and-slide1">
         <div className={this.props.generateClassName("search", this.props.isNavigating)}>

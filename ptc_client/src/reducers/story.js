@@ -38,7 +38,7 @@ export function setUpdatedStory(state, action) {
   return newState;
 }
 
-export function updateSetence(state, action) {
+export function updateSentence(state, action) {
   if (action.sentenceToAdd.length > 100) {
     const errors = { errors: ["Can't write more than 100 Characters!"] };
     const newState = Object.assign({}, state, errors);
