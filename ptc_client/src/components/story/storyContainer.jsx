@@ -52,6 +52,7 @@ export const Story = React.createClass({
       } else {
         return (
           <NotYourTurn
+            {...this.props}
             turnChange={this.state.turnIsChanging}
             firstRender={this.state.firstRender}/>
         );
@@ -68,7 +69,7 @@ export const Story = React.createClass({
           <CurrentStory sentences={this.props.story.sentences} />
 
           {this.renderAddToStoryOrOtherTurn()}
-          
+
           {this.props.story.otherUserLeft ? <p className="story-other-user-left animate-fade-and-slide1">Other User left..</p> : <p></p> }
           {this.props.story.id ? <p></p> : <BeginNewStory buttonTitle="Make another story?" className="story animate-fade-and-slide1"/>}
         </div>

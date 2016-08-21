@@ -189,7 +189,7 @@ export const HowToPlay = React.createClass({
     if (this.state.searching) {
       return (
         <div>
-          <Search />
+          <Search {...this.props}/>
           <HowToPlayTextBox className="how-to-play-search-render" finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
         </div>
       );

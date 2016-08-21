@@ -36,13 +36,13 @@ export const NavBar = React.createClass({
       <div className="navbar-container animate-fade-and-slide-in-from-top">
         <div className="navbar">
           <div className="navbar-logo">
-            <div className="navbar-link logo" onClick={() => {this.navigate('/')}}>Logo</div>
+            <div className="navbar-link logo" onClick={() => {this.navigate('/')}}><p>Logo</p></div>
           </div>
 
           <div className="navbar-links">
-            <div className="navbar-link" onClick={() => {this.navigate('/')}}>Home</div>
-            <div className="navbar-link" onClick={this.navigatePlay}>Play</div>
-            <div className="navbar-link" onClick={() => {this.navigate('/about')}}>About</div>
+            <div className="navbar-link" onClick={() => {this.navigate('/')}}><p>Home</p></div>
+            <div className="navbar-link" onClick={this.navigatePlay}><p>Play</p></div>
+            <div className="navbar-link" onClick={() => {this.navigate('/about')}}><p>About</p></div>
           </div>
         </div>
       </div>

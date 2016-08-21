@@ -70,6 +70,7 @@
 	
 	
 	__webpack_require__(351);
+	__webpack_require__(356);
 	
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(
 	(0, _remote_action_middleware2.default)(_websocket.socket))(_redux.createStore);
@@ -36560,13 +36561,13 @@
 	      _react2.default.createElement('div', { className: 'navbar-container animate-fade-and-slide-in-from-top' },
 	        _react2.default.createElement('div', { className: 'navbar' },
 	          _react2.default.createElement('div', { className: 'navbar-logo' },
-	            _react2.default.createElement('div', { className: 'navbar-link logo', onClick: function onClick() {_this2.navigate('/');} }, 'Logo')),
+	            _react2.default.createElement('div', { className: 'navbar-link logo', onClick: function onClick() {_this2.navigate('/');} }, _react2.default.createElement('p', null, 'Logo'))),
 	
 	
 	          _react2.default.createElement('div', { className: 'navbar-links' },
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/');} }, 'Home'),
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigatePlay }, 'Play'),
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/about');} }, 'About')))));
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/');} }, _react2.default.createElement('p', null, 'Home')),
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigatePlay }, _react2.default.createElement('p', null, 'Play')),
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/about');} }, _react2.default.createElement('p', null, 'About'))))));
 	
 	
 	
@@ -36996,9 +36997,10 @@
 	
 	      } else {
 	        return (
-	          _react2.default.createElement(_notYourTurn2.default, {
+	          _react2.default.createElement(_notYourTurn2.default, _extends({},
+	          this.props, {
 	            turnChange: this.state.turnIsChanging,
-	            firstRender: this.state.firstRender }));
+	            firstRender: this.state.firstRender })));
 	
 	      }
 	    }
@@ -37300,7 +37302,7 @@
 	    return (
 	      _react2.default.createElement('div', { className: this.generateNotYourTurnClassName("story-not-your-turn", "animate-fade-and-slide4") },
 	        _react2.default.createElement('p', null, 'Your Partner\'s '),
-	        this.props.howToPlay ? _react2.default.createElement(_timer.Timer, this.props) : _react2.default.createElement(_timer.Timer, null)));
+	        this.props.howToPlay ? _react2.default.createElement(_timer.Timer, this.props) : _react2.default.createElement(_timer2.default, null)));
 	
 	
 	  } });
@@ -37507,7 +37509,7 @@
 	    if (this.state.searching) {
 	      return (
 	        _react2.default.createElement('div', null,
-	          _react2.default.createElement(_searchContainer.Search, null),
+	          _react2.default.createElement(_searchContainer.Search, this.props),
 	          _react2.default.createElement(_howToPlayTextBox2.default, { className: 'how-to-play-search-render', finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] })));
 	
 	
@@ -37700,6 +37702,12 @@
 	
 	  return newState;
 	}
+
+/***/ },
+/* 356 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

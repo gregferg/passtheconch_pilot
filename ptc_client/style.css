@@ -25,12 +25,6 @@
       -ms-flex-pack: justify;
           justify-content: space-between; }
 
-.navbar div {
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 100; }
-
 .navbar-links {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -76,19 +70,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
-.splash h1 {
-  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; }
-
-.splash p {
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  line-height: 150%; }
-
 .splash-container {
   width: 100vw;
   margin-top: 100px;
@@ -142,19 +123,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
-.about h1 {
-  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; }
-
-.about p {
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  line-height: 130%; }
-
 .about-container {
   width: 100vw;
   margin-top: 100px;
@@ -175,12 +143,6 @@
 .about {
   width: 40vw;
   margin-left: 10vw; }
-.search h1 {
-  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; }
-
 .search-container {
   width: 100vw;
   margin-top: 100px;
@@ -194,13 +156,6 @@
 .search {
   width: 400vw;
   margin-left: 10vw; }
-
-.search p {
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  word-wrap: break-word; }
 .errors {
   height: 20px; }
 .story-container {
@@ -225,26 +180,6 @@
       -ms-flex-direction: column;
           flex-direction: column;
   width: 560px; }
-
-.story h1 {
-  font-family: "Playfair Display", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; }
-
-.story h3 {
-  font-family: 'Roboto', sans-serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size: 15px;
-  margin-top: 15px; }
-
-.story p {
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  word-wrap: break-word; }
 
 .story-current {
   margin-top: 30px; }
@@ -411,7 +346,6 @@ p {
   font-style: normal;
   font-weight: 100;
   word-wrap: break-word; }
-
 .fade-in3 {
   opacity: 0;
   -webkit-animation: fadein 2s forwards;

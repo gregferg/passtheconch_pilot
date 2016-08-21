@@ -19,7 +19,7 @@ export default React.createClass({
     return (
       <div className={this.generateNotYourTurnClassName("story-not-your-turn", "animate-fade-and-slide4")}>
         <p>Your Partner's </p>
-        {this.props.howToPlay ? <Timer {...this.props} /> : <Timer />}
+        {this.props.howToPlay ? <Timer {...this.props} /> : <TimerContainer />}
       </div>
       );
   }

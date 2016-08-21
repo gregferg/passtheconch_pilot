@@ -17,6 +17,7 @@ import NavBar from './components/navbar';
 
 
 require('./stylesheets/main.css.scss');
+require('./stylesheets/animations.css.scss');
 
 const createStoreWithMiddleware = applyMiddleware(
   remoteActionMiddleware(socket))(createStore);
