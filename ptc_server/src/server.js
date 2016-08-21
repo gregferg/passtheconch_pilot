@@ -55,6 +55,9 @@ export function startServer(store) {
     socket.on('action', (action) => {
       action.socket = socket;
       processRequest(store, action);
+      console.log("action");
+      console.log(action);
+      console.log("store");
       console.log(store.state);
     });
 
@@ -65,8 +68,7 @@ export function startServer(store) {
         user: userToDisconnect.user
       }
 
-        console.log(userToDisconnect.user);
-        console.log("user left");
+        console.log("user left " + userToDisconnect.user);
         processRequest(store, deleteUserSession);
         delete clientSockets[userToDisconnect.user];
     });
