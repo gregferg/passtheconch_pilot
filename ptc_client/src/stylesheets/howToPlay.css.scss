@@ -18,8 +18,18 @@
 
 .how-to-play-textbox-container {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.how-to-play-textbox-container {
-  margin-bottom: 10px;
+
+@media all and (max-width:415px)and(min-width:0px) {
+  .how-to-play-container {
+    width: 99.9%;
+  }
+  .how-to-play-story-container {
+    width: 75vw;
+  }
+  .how-to-play-textbox-container {
+    width: 75vw;
+  }
 }

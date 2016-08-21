@@ -17,3 +17,18 @@
   width: 40vw;
   margin-left: 10vw;
 }
+
+
+@media all and (max-width:415px)and(min-width:0px) {
+  .about-container {
+    width: 100%;
+    margin-top: 10vh;
+  }
+  .about-title {
+    width: 75vw;
+  }
+  .about-description {
+    width: 75vw;
+    margin-bottom: 45px;
+  }
+}

@@ -47,3 +47,15 @@ p {
   font-weight: 100;
   word-wrap: break-word;
 }
+
+@media all and (max-width:415px)and(min-width:0px) {
+  h1 {
+		font-size: 48px;
+	}
+  h3 {
+		font-size: 15px;
+	}
+  p {
+		font-size: 15px;
+	}
+}

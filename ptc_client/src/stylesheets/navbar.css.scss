@@ -46,3 +46,13 @@
   background-color: black;
 
 }
+
+
+@media all and (max-width:415px)and(min-width:0px) {
+  .navbar-container {
+    height: 55px;
+  }
+  .navbar-container {
+    width: 90%;
+  }
+}

@@ -9,3 +9,10 @@
   width: 400vw;
   margin-left: 10vw;
 }
+
+
+@media all and (max-width:415px)and(min-width:0px) {
+  .search {
+    margin-top: 10vh;
+  }
+}
