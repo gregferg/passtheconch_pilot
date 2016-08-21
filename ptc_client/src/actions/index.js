@@ -1,5 +1,6 @@
-import * as remoteActions from './remote';
+import * as remoteActions from './session';
 import * as storyActions from './story';
+import * as errorActions from './errors';
 
 
 const actions = Object.assign(remoteActions, storyActions);

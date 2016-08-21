@@ -1,3 +1,21 @@
+export function createStoryRequest(user) {
+  return {
+    meta: { remote: true},
+    type: "NEW_STORY_REQUEST",
+    user: user
+  }
+}
+
+export function updateStoryRequest(storyId, sentence, user) {
+  return {
+    meta: { remote: true},
+    type: 'UPDATE_STORY_REQUEST',
+    sentence,
+    storyId,
+    user
+  }
+}
+
 export function storyCreated(action) {
   return {
     type: 'STORY_CREATED',
@@ -38,11 +56,5 @@ export function setReduceTimerTimeout(timeout) {
   return {
     type: 'SET_REDUCER_TIMER_TIMEOUT',
     timeout
-  }
-}
-
-export function clearErrorsTimeout() {
-  return {
-    type: 'CLEAR_ERRORS_TIMEOUT',
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import Timer from './timer';
+import TimerContainer from './timer';
+import {Timer} from './timer';
 
 
 export default React.createClass({
@@ -18,7 +19,7 @@ export default React.createClass({
     return (
       <div className={this.generateNotYourTurnClassName("story-not-your-turn", "animate-fade-and-slide4")}>
         <p>Your Partner's </p>
-        <Timer {...this.props} />
+        {this.props.howToPlay ? <Timer {...this.props} /> : <Timer />}
       </div>
       );
   }

@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
-import {setSession, storyCreated, storyUpdated, storyFinished, displayErrors}
-from './actions/remote';
+import {storyCreated, storyUpdated, storyFinished } from './actions/story';
+import {setErrors} from './actions/errors'
+import {setSession} from './actions/session'
+
 
 export const socket = io();
 
@@ -31,6 +33,6 @@ export function addListeners(socket, store) {
   })
 
   socket.on('ERROR', (action) => {
-    store.dispatch(displayErrors(action));
+    store.dispatch(setErrors(action));
   })
 }

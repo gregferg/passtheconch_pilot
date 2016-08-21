@@ -189,18 +189,19 @@ export const HowToPlay = React.createClass({
     if (this.state.searching) {
       return (
         <div>
-          <Search {...this.props}/>
+          <Search />
           <HowToPlayTextBox className="how-to-play-search-render" finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
         </div>
       );
     } else {
-      {this.state.story.turn ? <AddToStory {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> : <NotYourTurn {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/>}
       return (
         <div className="how-to-play-story-container">
           <h1 className="animate-fade-and-slide1">Story</h1>
           <p className="animate-fade-and-slide2">Normal Prompt goes here!</p>
+
           <HowToPlayTextBox finshedRenderingText={this.nextStep} textToRender={howToPlayText[this.state.idx]}/>
-          <CurrentStory story={this.state.story} />
+
+          <CurrentStory sentences={this.state.story.sentences} />
           {this.state.story.turn?
           <AddToStory
             story={this.state.story}
@@ -209,18 +210,20 @@ export const HowToPlay = React.createClass({
             turnChange={this.state.turnIsChanging}
             updateSentence={this.fakeUpdateSentence}
             updateStoryRequest={this.fakeStoryUpdateStoryRequest}
-            firstRender={this.state.firstRender}/>
+            firstRender={this.state.firstRender}
+            howToPlay={true}/>
           :
           <NotYourTurn
             story={this.state.story}
             reduceTimer={this.reduceTimer}
             setReduceTimerTimeout={this.setReduceTimerTimeout}
             turnChange={this.state.turnIsChanging}
-            firstRender={this.state.firstRender}/>
+            firstRender={this.state.firstRender}
+            howToPlay={true}/>
         }
 
 
-          {this.state.idx > 8 ? <BeginNewStory {...this.props} buttonTitle="Make a story!" className="story animate-fade-and-slide1"/> : <p></p>}
+          {this.state.idx > 8 ? <BeginNewStory buttonTitle="Make a story!" className="story animate-fade-and-slide1"/> : <p></p>}
         </div>
       );
     }

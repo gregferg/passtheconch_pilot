@@ -9,7 +9,9 @@ import generateClassName from './generateClassName';
 The normal socket.on(disconnect) was not working on the server side, it would
 randomly go off even though the socket's had not disconnected. This is my
 fix so that the socket will disconnect when the user closes or navigates away
-from the window. It mainly works.
+from the window. 60% of the time, it works everytime. Jokes aside, the only bug
+is if someone spams refreshing the page, this code sometimes won't run, but the
+socket will connect, so there will be a phantom user left in the backend state.
 */
 
 import {SOCKET} from '../index.jsx';
@@ -22,8 +24,8 @@ window.onbeforeunload = function (e) {
   }
 };
 
-
 var currentUser;
+
 
 export const App = React.createClass({
   getInitialState: function() {

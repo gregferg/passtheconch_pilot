@@ -42,7 +42,20 @@ export const Story = React.createClass({
     if (this.props.story.otherUserLeft || this.props.story.finished) {
       return;
     } else {
-      return this.state.turn ? <AddToStory {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/> : <NotYourTurn {...this.props} turnChange={this.state.turnIsChanging} firstRender={this.state.firstRender}/>;
+      if (this.state.turn) {
+        return (
+          <AddToStory
+            {...this.props}
+            turnChange={this.state.turnIsChanging}
+            firstRender={this.state.firstRender}/>
+        );
+      } else {
+        return (
+          <NotYourTurn
+            turnChange={this.state.turnIsChanging}
+            firstRender={this.state.firstRender}/>
+        );
+      }
     }
   },
   render: function() {
@@ -51,10 +64,13 @@ export const Story = React.createClass({
         <div className={this.props.generateClassName("story", this.props.isNavigating)}>
           <h1 className="animate-fade-and-slide1">Story</h1>
           <h3 className="animate-fade-and-slide2">{this.props.story.prompt}</h3>
-          <CurrentStory {...this.props} />
+
+          <CurrentStory sentences={this.props.story.sentences} />
+
           {this.renderAddToStoryOrOtherTurn()}
+          
           {this.props.story.otherUserLeft ? <p className="story-other-user-left animate-fade-and-slide1">Other User left..</p> : <p></p> }
-          {this.props.story.id ? <p></p> : <BeginNewStory {...this.props} buttonTitle="Make another story?" className="story animate-fade-and-slide1"/>}
+          {this.props.story.id ? <p></p> : <BeginNewStory buttonTitle="Make another story?" className="story animate-fade-and-slide1"/>}
         </div>
       </div>
     );

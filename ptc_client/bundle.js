@@ -28599,6 +28599,7 @@
 	
 	
 	
+	
 	reducer;var _session = __webpack_require__(261);var _story = __webpack_require__(262);var DEFAULT_STATE = { user: null, story: { id: null, sentences: [], sentenceToAdd: "", prompt: "", turn: null, finished: false, timer: { timeLeft: 65, timeout: null } }, errors: [], searching: false };function reducer() {var state = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_STATE : arguments[0];var action = arguments[1];
 	  console.log(action);
 	
@@ -28804,9 +28805,11 @@
 	
 	
 	
-	addListeners = addListeners;var _socket = __webpack_require__(265);var _socket2 = _interopRequireDefault(_socket);var _remote = __webpack_require__(315);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var socket = exports.socket = (0, _socket2.default)();function addListeners(socket, store) {
+	
+	
+	addListeners = addListeners;var _socket = __webpack_require__(265);var _socket2 = _interopRequireDefault(_socket);var _story = __webpack_require__(324);var _errors = __webpack_require__(353);var _session = __webpack_require__(354);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var socket = exports.socket = (0, _socket2.default)();function addListeners(socket, store) {
 	  socket.on('SET_USER', function (action) {
-	    store.dispatch((0, _remote.setSession)(action));
+	    store.dispatch((0, _session.setSession)(action));
 	  });
 	
 	  socket.on('NUM_USERS_ONLINE', function (action) {
@@ -28814,15 +28817,15 @@
 	  });
 	
 	  socket.on('STORY_CREATED', function (action) {
-	    store.dispatch((0, _remote.storyCreated)(action));
+	    store.dispatch((0, _story.storyCreated)(action));
 	  });
 	
 	  socket.on('STORY_UPDATED', function (action) {
-	    store.dispatch((0, _remote.storyUpdated)(action));
+	    store.dispatch((0, _story.storyUpdated)(action));
 	  });
 	
 	  socket.on('FINISHED_STORY', function (action) {
-	    store.dispatch((0, _remote.storyFinished)(action));
+	    store.dispatch((0, _story.storyFinished)(action));
 	  });
 	
 	  socket.on('OTHER_USER_LEFT', function (action) {
@@ -28831,7 +28834,7 @@
 	  });
 	
 	  socket.on('ERROR', function (action) {
-	    store.dispatch((0, _remote.displayErrors)(action));
+	    store.dispatch((0, _errors.setErrors)(action));
 	  });
 	}
 
@@ -36449,69 +36452,7 @@
 
 
 /***/ },
-/* 315 */
-/***/ function(module, exports) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.
-	
-	createStoryRequest = createStoryRequest;exports.
-	
-	
-	
-	
-	
-	
-	
-	updateStoryRequest = updateStoryRequest;exports.
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	storyCreated = storyCreated;exports.
-	
-	
-	
-	
-	
-	
-	
-	
-	storyUpdated = storyUpdated;exports.
-	
-	
-	
-	
-	
-	
-	storyFinished = storyFinished;exports.
-	
-	
-	
-	
-	
-	
-	
-	setSession = setSession;exports.
-	
-	
-	
-	
-	
-	
-	
-	displayErrors = displayErrors;function createStoryRequest(user) {return { meta: { remote: true }, type: "NEW_STORY_REQUEST", user: user };}function updateStoryRequest(storyId, sentence, user) {return { meta: { remote: true }, type: 'UPDATE_STORY_REQUEST', sentence: sentence, storyId: storyId, user: user };}function storyCreated(action) {console.log(action);return { type: 'STORY_CREATED', storyId: action.storyId, turn: action.turn };}function storyUpdated(action) {return { type: 'STORY_UPDATED', updateStory: action.updateStory };}function storyFinished(action) {return { type: 'STORY_FINISHED', finishedStory: action.finishedStory };}function setSession(action) {return { type: 'SET_SESSION', user: action.user };}function displayErrors(action) {
-	  return {
-	    type: 'ERROR',
-	    errors: action.errors };
-	
-	}
-
-/***/ },
+/* 315 */,
 /* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36520,6 +36461,8 @@
 	var _reactRedux = __webpack_require__(253);
 	
 	var _generateClassName = __webpack_require__(327);var _generateClassName2 = _interopRequireDefault(_generateClassName);
+	
+	
 	
 	
 	
@@ -36541,10 +36484,10 @@
 	   The normal socket.on(disconnect) was not working on the server side, it would
 	   randomly go off even though the socket's had not disconnected. This is my
 	   fix so that the socket will disconnect when the user closes or navigates away
-	   from the window. It mainly works.
-	   */var currentUser;var App = exports.App = _react2.default.createClass({ displayName: 'App',
-	  getInitialState: function getInitialState() {
-	    return { isNavigating: false };
+	   from the window. 60% of the time, it works everytime. Jokes aside, the only bug
+	   is if someone spams refreshing the page, this code sometimes won't run, but the
+	   socket will connect, so there will be a phantom user left in the backend state.
+	   */var currentUser;var App = exports.App = _react2.default.createClass({ displayName: 'App', getInitialState: function getInitialState() {return { isNavigating: false };
 	  },
 	  startNavigating: function startNavigating() {
 	    this.setState({ isNavigating: true });
@@ -36592,7 +36535,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.NavBar = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
-	var _beginNewStory = __webpack_require__(318);var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	
 	var _reactRouter = __webpack_require__(176);
 	
@@ -36604,13 +36546,13 @@
 	var timeoutSet = false;
 	
 	var NavBar = exports.NavBar = _react2.default.createClass({ displayName: 'NavBar',
-	  navigateHome: function navigateHome() {
-	    if (timeoutSet || this.props.url === "/") {return;}
+	  navigate: function navigate(location) {
+	    if (timeoutSet || this.props.url === location) {return;}
 	    this.props.startNavigating();
 	
 	    timeoutSet = true;
 	    setTimeout(function () {
-	      _reactRouter.hashHistory.push('/');
+	      _reactRouter.hashHistory.push(location);
 	      timeoutSet = false;
 	    }, 800);
 	  },
@@ -36625,28 +36567,18 @@
 	      timeoutSet = false;
 	    }, 800);
 	  },
-	  navigateAbout: function navigateAbout() {
-	    if (timeoutSet || this.props.url === "/about") {return;}
-	    this.props.startNavigating();
-	
-	    timeoutSet = true;
-	    setTimeout(function () {
-	      _reactRouter.hashHistory.push('/about');
-	      timeoutSet = false;
-	    }, 800);
-	  },
-	  render: function render() {
+	  render: function render() {var _this2 = this;
 	    return (
 	      _react2.default.createElement('div', { className: 'navbar-container animate-fade-and-slide-in-from-top' },
 	        _react2.default.createElement('div', { className: 'navbar' },
 	          _react2.default.createElement('div', { className: 'navbar-logo' },
-	            _react2.default.createElement('div', { className: 'navbar-link logo', onClick: this.navigateHome }, 'Logo')),
+	            _react2.default.createElement('div', { className: 'navbar-link logo', onClick: function onClick() {_this2.navigate('/');} }, 'Logo')),
 	
 	
 	          _react2.default.createElement('div', { className: 'navbar-links' },
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigateHome }, 'Home'),
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/');} }, 'Home'),
 	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigatePlay }, 'Play'),
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigateAbout }, 'About')))));
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/about');} }, 'About')))));
 	
 	
 	
@@ -36672,12 +36604,15 @@
 /* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
-	var _reactRouter = __webpack_require__(176);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.BeginNewStory = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
+	var _reactRouter = __webpack_require__(176);
+	var _reactRedux = __webpack_require__(253);
+	var _story = __webpack_require__(324);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 	
-	__webpack_require__(319);exports.default =
 	
-	_react2.default.createClass({ displayName: 'beginNewStory',
+	__webpack_require__(319);
+	
+	var BeginNewStory = exports.BeginNewStory = _react2.default.createClass({ displayName: 'BeginNewStory',
 	  handleClick: function handleClick() {
 	    _reactRouter.hashHistory.push('/searching');
 	    this.props.createStoryRequest(this.props.user);
@@ -36693,6 +36628,20 @@
 	
 	
 	  } });
+	
+	
+	function mapStateToProps(state) {
+	  return {
+	    user: state.user };
+	
+	}
+	
+	var BeginNewStoryContainer = (0, _reactRedux.connect)(
+	mapStateToProps,
+	{ createStoryRequest: _story.createStoryRequest })(
+	BeginNewStory);exports.default =
+	
+	BeginNewStoryContainer;
 
 /***/ },
 /* 319 */
@@ -36707,8 +36656,9 @@
 /* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _remote = __webpack_require__(315);var remoteActions = _interopRequireWildcard(_remote);
-	var _story = __webpack_require__(324);var storyActions = _interopRequireWildcard(_story);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _session = __webpack_require__(354);var remoteActions = _interopRequireWildcard(_session);
+	var _story = __webpack_require__(324);var storyActions = _interopRequireWildcard(_story);
+	var _errors = __webpack_require__(353);var errorActions = _interopRequireWildcard(_errors);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}
 	
 	
 	var actions = Object.assign(remoteActions, storyActions);exports.default =
@@ -36718,7 +36668,25 @@
 /* 324 */
 /***/ function(module, exports) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.storyCreated = storyCreated;exports.
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.createStoryRequest = createStoryRequest;exports.
+	
+	
+	
+	
+	
+	
+	
+	updateStoryRequest = updateStoryRequest;exports.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	storyCreated = storyCreated;exports.
 	
 	
 	
@@ -36754,16 +36722,10 @@
 	
 	
 	
-	setReduceTimerTimeout = setReduceTimerTimeout;exports.
-	
-	
-	
-	
-	
-	
-	clearErrorsTimeout = clearErrorsTimeout;function storyCreated(action) {return { type: 'STORY_CREATED', storyId: action.storyId, turn: action.turn, prompt: action.prompt };}function storyUpdated(action) {return { type: 'SET_UPDATED_STORY', updatedStory: action.updatedStory };}function updateSentence(sentenceToAdd) {return { type: 'UPDATE_SETENCE', sentenceToAdd: sentenceToAdd };}function storyFinished(action) {return { type: 'SET_FINISHED_STORY', finishedStory: action.finishedStory };}function reduceTimer() {return { type: 'REDUCE_TIMER' };}function setReduceTimerTimeout(timeout) {return { type: 'SET_REDUCER_TIMER_TIMEOUT', timeout: timeout };}function clearErrorsTimeout() {
+	setReduceTimerTimeout = setReduceTimerTimeout;function createStoryRequest(user) {return { meta: { remote: true }, type: "NEW_STORY_REQUEST", user: user };}function updateStoryRequest(storyId, sentence, user) {return { meta: { remote: true }, type: 'UPDATE_STORY_REQUEST', sentence: sentence, storyId: storyId, user: user };}function storyCreated(action) {return { type: 'STORY_CREATED', storyId: action.storyId, turn: action.turn, prompt: action.prompt };}function storyUpdated(action) {return { type: 'SET_UPDATED_STORY', updatedStory: action.updatedStory };}function updateSentence(sentenceToAdd) {return { type: 'UPDATE_SETENCE', sentenceToAdd: sentenceToAdd };}function storyFinished(action) {return { type: 'SET_FINISHED_STORY', finishedStory: action.finishedStory };}function reduceTimer() {return { type: 'REDUCE_TIMER' };}function setReduceTimerTimeout(timeout) {
 	  return {
-	    type: 'CLEAR_ERRORS_TIMEOUT' };
+	    type: 'SET_REDUCER_TIMER_TIMEOUT',
+	    timeout: timeout };
 	
 	}
 
@@ -36790,7 +36752,7 @@
 /* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.Splash = undefined;var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.Splash = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
 	var _beginNewStory = __webpack_require__(318);var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	
 	var _reactRedux = __webpack_require__(253);
@@ -36810,12 +36772,14 @@
 	            _react2.default.createElement('h1', { className: 'animate-fade-and-slide1' }, 'Pass The Conch'),
 	            _react2.default.createElement('p', { className: 'animate-fade-and-slide2' }, 'Practice creativity, storytelling, and working with others through writing sentences back and forth to create a unique story.')),
 	
+	
 	          _react2.default.createElement('div', { className: 'splash-buttons animate-fade-and-slide3' },
 	            _react2.default.createElement('div', { onClick: function onClick() {_reactRouter.hashHistory.push('howtoplay');}, className: 'splash-how-to-play' }, 'How to Play'),
 	
 	
+	
 	            _react2.default.createElement('div', { className: 'splash-new-story' },
-	              _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Create a Story' })))))));
+	              _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Create a Story' }))))));
 	
 	
 	
@@ -37035,7 +36999,20 @@
 	    if (this.props.story.otherUserLeft || this.props.story.finished) {
 	      return;
 	    } else {
-	      return this.state.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender }));
+	      if (this.state.turn) {
+	        return (
+	          _react2.default.createElement(_addToStory2.default, _extends({},
+	          this.props, {
+	            turnChange: this.state.turnIsChanging,
+	            firstRender: this.state.firstRender })));
+	
+	      } else {
+	        return (
+	          _react2.default.createElement(_notYourTurn2.default, {
+	            turnChange: this.state.turnIsChanging,
+	            firstRender: this.state.firstRender }));
+	
+	      }
 	    }
 	  },
 	  render: function render() {
@@ -37044,10 +37021,13 @@
 	        _react2.default.createElement('div', { className: this.props.generateClassName("story", this.props.isNavigating) },
 	          _react2.default.createElement('h1', { className: 'animate-fade-and-slide1' }, 'Story'),
 	          _react2.default.createElement('h3', { className: 'animate-fade-and-slide2' }, this.props.story.prompt),
-	          _react2.default.createElement(_currentStory2.default, this.props),
+	
+	          _react2.default.createElement(_currentStory2.default, { sentences: this.props.story.sentences }),
+	
 	          this.renderAddToStoryOrOtherTurn(),
+	
 	          this.props.story.otherUserLeft ? _react2.default.createElement('p', { className: 'story-other-user-left animate-fade-and-slide1' }, 'Other User left..') : _react2.default.createElement('p', null),
-	          this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' })))));
+	          this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' }))));
 	
 	
 	
@@ -37079,7 +37059,7 @@
 	  render: function render() {
 	    return (
 	      _react2.default.createElement('div', { className: 'story-current animate-fade-and-slide2' },
-	        _react2.default.createElement('p', null, this.props.story.sentences.join(' '))));
+	        _react2.default.createElement('p', null, this.props.sentences.join(' '))));
 	
 	
 	  } });
@@ -37090,6 +37070,7 @@
 
 	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
 	var _timer = __webpack_require__(340);var _timer2 = _interopRequireDefault(_timer);
+	
 	var _errors = __webpack_require__(341);var _errors2 = _interopRequireDefault(_errors);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.default =
 	
 	
@@ -37112,9 +37093,6 @@
 	      this.props.updateStoryRequest(this.props.story.id, this.props.story.sentenceToAdd, this.props.user);
 	    }
 	  },
-	  isTurn: function isTurn() {
-	    return this.props.story.turn ? { "display": "flex" } : { "display": "none" };
-	  },
 	  generateAddToStoryClassName: function generateAddToStoryClassName(normalClassName, firstAnimation) {
 	    if (this.props.firstRender) {
 	      return normalClassName + " " + firstAnimation;
@@ -37126,15 +37104,27 @@
 	      return normalClassName + " animate-fade-and-slide1";
 	    }
 	  },
+	  renderTimer: function renderTimer() {
+	    if (this.props.howToPlay) {
+	      return (
+	        _react2.default.createElement(_timer.Timer, {
+	          howToPlay: true,
+	          story: this.props.story,
+	          reduceTimer: this.props.reduceTimer,
+	          setReduceTimerTimeout: this.props.setReduceTimerTimeout,
+	          updateStoryRequest: this.props.updateStoryRequest }));
+	
+	    } else {
+	      return _react2.default.createElement(_timer2.default, null);
+	    }
+	  },
 	  render: function render() {var _this = this;
 	    return (
 	      _react2.default.createElement('div', { className: this.generateAddToStoryClassName("story-add-to", "animate-fade-and-slide4") },
-	        _react2.default.createElement('div', { className: 'errors' },
-	          _react2.default.createElement(_errors2.default, this.props)),
-	
+	        _react2.default.createElement(_errors2.default, null),
 	
 	        _react2.default.createElement('div', { className: 'story-add-to-timer-and-characters' },
-	          _react2.default.createElement(_timer2.default, this.props),
+	          this.renderTimer(),
 	
 	          _react2.default.createElement('div', { className: 'story-senteneces-left' },
 	            _react2.default.createElement('p', null, 'Sentences left: ', 10 - this.props.story.sentences.length)),
@@ -37146,13 +37136,13 @@
 	
 	
 	
-	        _react2.default.createElement('textarea', { style: this.isTurn(), className: 'story-text-area',
+	        _react2.default.createElement('textarea', { className: 'story-text-area',
 	          onKeyUp: this.handleKeyPress,
 	          onChange: this.handleChange,
 	          value: this.props.story.sentenceToAdd }),
 	
 	
-	        _react2.default.createElement('div', { style: this.isTurn(), className: 'story-update-button',
+	        _react2.default.createElement('div', { className: 'story-update-button',
 	            onClick: function onClick() {return _this.props.updateStoryRequest(_this.props.story.id, _this.props.story.sentenceToAdd, _this.props.user);} }, 'Pass the Conch')));
 	
 	
@@ -37164,12 +37154,16 @@
 /* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.Timer = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(253);
+	var _index = __webpack_require__(323);var _index2 = _interopRequireDefault(_index);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	
 	
 	var timeoutSet = false;
-	var timerTimeout;exports.default =
+	var timerTimeout;
 	
-	_react2.default.createClass({ displayName: 'timer',
+	var Timer = exports.Timer = _react2.default.createClass({ displayName: 'Timer',
 	  decrementTimer: function decrementTimer() {var _this = this;
 	    if (!timeoutSet && this.props.story.timer.timeLeft > 0) {
 	      timeoutSet = true;
@@ -37203,8 +37197,10 @@
 	      _this2.decrementTimer();
 	    }, 2000);
 	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearTimeout(timerTimeout);
+	  },
 	  render: function render() {
-	
 	    var timeLeft = this.props.story.timer.timeLeft > 0 ? this.props.story.timer.timeLeft : 0;
 	    return (
 	      _react2.default.createElement('div', null,
@@ -37212,22 +37208,38 @@
 	
 	
 	  } });
+	
+	
+	
+	function mapStateToProps(state) {
+	  return {
+	    user: state.user,
+	    story: state.story };
+	
+	}
+	
+	var TimerContainer = (0, _reactRedux.connect)(
+	mapStateToProps, _index2.default)(
+	
+	Timer);exports.default =
+	
+	TimerContainer;
 
 /***/ },
 /* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.Errors = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
+	var _reactRedux = __webpack_require__(253);
+	var _errors = __webpack_require__(353);var Actions = _interopRequireWildcard(_errors);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 	
-	__webpack_require__(342);exports.default =
+	__webpack_require__(342);
 	
-	_react2.default.createClass({ displayName: 'errors',
+	var Errors = exports.Errors = _react2.default.createClass({ displayName: 'Errors',
 	  isDuckTypedComponent: function isDuckTypedComponent() {
 	    if (!this.props.errors) {return true;}
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {var _this = this;
-	    if (this.isDuckTypedComponent()) {return;}
-	
 	    if (newProps.errors.length === 0) {
 	      return;
 	    }
@@ -37241,12 +37253,10 @@
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
-	    if (this.isDuckTypedComponent()) {return;}
 	
 	    this.props.clearErrorsTimeout();
 	  },
 	  render: function render() {
-	    if (this.isDuckTypedComponent()) {return _react2.default.createElement('div', null);}
 	
 	    return (
 	      _react2.default.createElement('div', { className: 'errors' },
@@ -37254,6 +37264,21 @@
 	
 	
 	  } });
+	
+	
+	
+	function mapStateToProps(state) {
+	  return {
+	    errors: state.errors };
+	
+	}
+	
+	var ErrorsContainer = (0, _reactRedux.connect)(
+	mapStateToProps,
+	Actions)(
+	Errors);exports.default =
+	
+	ErrorsContainer;
 
 /***/ },
 /* 342 */
@@ -37268,6 +37293,7 @@
 
 	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
 	var _timer = __webpack_require__(340);var _timer2 = _interopRequireDefault(_timer);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.default =
+	
 	
 	
 	_react2.default.createClass({ displayName: 'notYourTurn',
@@ -37286,7 +37312,7 @@
 	    return (
 	      _react2.default.createElement('div', { className: this.generateNotYourTurnClassName("story-not-your-turn", "animate-fade-and-slide4") },
 	        _react2.default.createElement('p', null, 'Your Partner\'s '),
-	        _react2.default.createElement(_timer2.default, this.props)));
+	        this.props.howToPlay ? _react2.default.createElement(_timer.Timer, this.props) : _react2.default.createElement(_timer.Timer, null)));
 	
 	
 	  } });
@@ -37302,7 +37328,7 @@
 /* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.HowToPlay = undefined;var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.HowToPlay = undefined;var _react = __webpack_require__(2);var _react2 = _interopRequireDefault(_react);
 	var _currentStory = __webpack_require__(338);var _currentStory2 = _interopRequireDefault(_currentStory);
 	var _beginNewStory = __webpack_require__(318);var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	var _addToStory = __webpack_require__(339);var _addToStory2 = _interopRequireDefault(_addToStory);
@@ -37493,18 +37519,19 @@
 	    if (this.state.searching) {
 	      return (
 	        _react2.default.createElement('div', null,
-	          _react2.default.createElement(_searchContainer.Search, this.props),
+	          _react2.default.createElement(_searchContainer.Search, null),
 	          _react2.default.createElement(_howToPlayTextBox2.default, { className: 'how-to-play-search-render', finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] })));
 	
 	
 	    } else {
-	      {this.state.story.turn ? _react2.default.createElement(_addToStory2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender })) : _react2.default.createElement(_notYourTurn2.default, _extends({}, this.props, { turnChange: this.state.turnIsChanging, firstRender: this.state.firstRender }));}
 	      return (
 	        _react2.default.createElement('div', { className: 'how-to-play-story-container' },
 	          _react2.default.createElement('h1', { className: 'animate-fade-and-slide1' }, 'Story'),
 	          _react2.default.createElement('p', { className: 'animate-fade-and-slide2' }, 'Normal Prompt goes here!'),
+	
 	          _react2.default.createElement(_howToPlayTextBox2.default, { finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] }),
-	          _react2.default.createElement(_currentStory2.default, { story: this.state.story }),
+	
+	          _react2.default.createElement(_currentStory2.default, { sentences: this.state.story.sentences }),
 	          this.state.story.turn ?
 	          _react2.default.createElement(_addToStory2.default, {
 	            story: this.state.story,
@@ -37513,18 +37540,20 @@
 	            turnChange: this.state.turnIsChanging,
 	            updateSentence: this.fakeUpdateSentence,
 	            updateStoryRequest: this.fakeStoryUpdateStoryRequest,
-	            firstRender: this.state.firstRender }) :
+	            firstRender: this.state.firstRender,
+	            howToPlay: true }) :
 	
 	          _react2.default.createElement(_notYourTurn2.default, {
 	            story: this.state.story,
 	            reduceTimer: this.reduceTimer,
 	            setReduceTimerTimeout: this.setReduceTimerTimeout,
 	            turnChange: this.state.turnIsChanging,
-	            firstRender: this.state.firstRender }),
+	            firstRender: this.state.firstRender,
+	            howToPlay: true }),
 	
 	
 	
-	          this.state.idx > 8 ? _react2.default.createElement(_beginNewStory2.default, _extends({}, this.props, { buttonTitle: 'Make a story!', className: 'story animate-fade-and-slide1' })) : _react2.default.createElement('p', null)));
+	          this.state.idx > 8 ? _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Make a story!', className: 'story animate-fade-and-slide1' }) : _react2.default.createElement('p', null)));
 	
 	
 	    }
@@ -37638,6 +37667,35 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 352 */,
+/* 353 */
+/***/ function(module, exports) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.setErrors = setErrors;exports.
+	
+	
+	
+	
+	
+	
+	clearErrorsTimeout = clearErrorsTimeout;function setErrors(action) {return { type: 'ERROR', errors: action.errors };}function clearErrorsTimeout() {
+	  return {
+	    type: 'CLEAR_ERRORS_TIMEOUT' };
+	
+	}
+
+/***/ },
+/* 354 */
+/***/ function(module, exports) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.setSession = setSession;function setSession(action) {
+	  return {
+	    type: 'SET_SESSION',
+	    user: action.user };
+	
+	}
 
 /***/ }
 /******/ ]);

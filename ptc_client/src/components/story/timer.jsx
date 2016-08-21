@@ -1,9 +1,13 @@
 import React from 'react';
 
+import {connect} from 'react-redux';
+import Actions from '../../actions/index';
+
+
 var timeoutSet = false;
 var timerTimeout;
 
-export default React.createClass({
+export const Timer = React.createClass({
   decrementTimer: function() {
     if (!timeoutSet && this.props.story.timer.timeLeft > 0) {
       timeoutSet = true;
@@ -23,11 +27,11 @@ export default React.createClass({
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.story.timer.timeLeft === 0 && this.props.story.turn) {
-      this.props.updateStoryRequest(
-        this.props.story.id,
-        this.props.story.sentenceToAdd,
-        this.props.user
-      )
+        this.props.updateStoryRequest(
+          this.props.story.id,
+          this.props.story.sentenceToAdd,
+          this.props.user
+        )
     } else if (!timeoutSet && newProps.story.timer.timeLeft > 0) {
       this.decrementTimer();
     }
@@ -37,8 +41,10 @@ export default React.createClass({
       this.decrementTimer();
     }, 2000)
   },
+  componentWillUnmount: function() {
+    clearTimeout(timerTimeout);
+  },
   render: function() {
-
     const timeLeft = this.props.story.timer.timeLeft > 0 ? this.props.story.timer.timeLeft : 0;
     return (
       <div>
@@ -47,3 +53,18 @@ export default React.createClass({
     );
   }
 });
+
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    story: state.story
+  }
+}
+
+const TimerContainer = connect(
+  mapStateToProps,
+  Actions
+)(Timer);
+
+export default TimerContainer

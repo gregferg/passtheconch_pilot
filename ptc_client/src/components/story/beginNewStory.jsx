@@ -1,9 +1,12 @@
 import React from 'react';
 import {hashHistory} from 'react-router';
+import {connect} from 'react-redux';
+import {createStoryRequest} from '../../actions/story.js';
+
 
 require('../../stylesheets/beginNewStory.css.scss');
 
-export default React.createClass({
+export const BeginNewStory = React.createClass({
   handleClick: function() {
     hashHistory.push('/searching');
     this.props.createStoryRequest(this.props.user)
@@ -20,3 +23,16 @@ export default React.createClass({
     );
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  }
+}
+
+const BeginNewStoryContainer = connect(
+  mapStateToProps,
+  {createStoryRequest}
+)(BeginNewStory);
+
+export default BeginNewStoryContainer

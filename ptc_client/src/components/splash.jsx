@@ -18,14 +18,16 @@ export const Splash = React.createClass({
             <h1 className="animate-fade-and-slide1">Pass The Conch</h1>
             <p className="animate-fade-and-slide2">Practice creativity, storytelling, and working with others through writing sentences back and forth to create a unique story.</p>
           </div>
+
           <div className="splash-buttons animate-fade-and-slide3">
             <div onClick={() => { hashHistory.push('howtoplay') }} className="splash-how-to-play">
               How to Play
             </div>
+
             <div className="splash-new-story">
-              <BeginNewStory {...this.props} buttonTitle="Create a Story"/>
+              <BeginNewStory buttonTitle="Create a Story"/>
             </div>
-        </div>
+          </div>
         </div>
       </div>
     );
