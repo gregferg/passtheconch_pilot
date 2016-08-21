@@ -1,4 +1,5 @@
-import {setSession, setErrors, clearErrors} from './reducers/session.js';
+import {setSession} from './reducers/session.js';
+import {setErrors, clearErrors} from './reducers/errors.js';
 
 import {
   searchingForStory,

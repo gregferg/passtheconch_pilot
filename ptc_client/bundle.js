@@ -28600,7 +28600,8 @@
 	
 	
 	
-	reducer;var _session = __webpack_require__(261);var _story = __webpack_require__(262);var DEFAULT_STATE = { user: null, story: { id: null, sentences: [], sentenceToAdd: "", prompt: "", turn: null, finished: false, timer: { timeLeft: 65, timeout: null } }, errors: [], searching: false };function reducer() {var state = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_STATE : arguments[0];var action = arguments[1];
+	
+	reducer;var _session = __webpack_require__(261);var _errors = __webpack_require__(355);var _story = __webpack_require__(262);var DEFAULT_STATE = { user: null, story: { id: null, sentences: [], sentenceToAdd: "", prompt: "", turn: null, finished: false, timer: { timeLeft: 65, timeout: null } }, errors: [], searching: false };function reducer() {var state = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_STATE : arguments[0];var action = arguments[1];
 	  console.log(action);
 	
 	  switch (action.type) {
@@ -28623,11 +28624,11 @@
 	    case 'SET_REDUCER_TIMER_TIMEOUT':
 	      return (0, _story.setReduceTimerTimeout)(state, action);
 	    case 'ERROR':
-	      return (0, _session.setErrors)(state, action);
+	      return (0, _errors.setErrors)(state, action);
 	    case 'OTHER_USER_LEFT':
 	      return (0, _story.userLeft)(state, action);
 	    case 'CLEAR_ERRORS_TIMEOUT':
-	      return (0, _session.clearErrors)(state, action);
+	      return (0, _errors.clearErrors)(state, action);
 	    default:
 	      return state;}
 	
@@ -28637,23 +28638,10 @@
 /* 261 */
 /***/ function(module, exports) {
 
-	"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.setSession = setSession;exports.
+	"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.setSession = setSession;function setSession(state, action) {
+	  var newState = Object.assign({}, state);
 	
-	
-	
-	
-	
-	
-	
-	
-	setErrors = setErrors;exports.
-	
-	
-	
-	
-	
-	clearErrors = clearErrors;function setSession(state, action) {var newState = Object.assign({}, state);newState.user = action.user;return newState;}function setErrors(state, action) {var newState = Object.assign({}, state, { errors: action.errors });return newState;}function clearErrors(state, action) {
-	  var newState = Object.assign({}, state, { errors: [] });
+	  newState.user = action.user;
 	
 	  return newState;
 	}
@@ -37695,6 +37683,22 @@
 	    type: 'SET_SESSION',
 	    user: action.user };
 	
+	}
+
+/***/ },
+/* 355 */
+/***/ function(module, exports) {
+
+	"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.setErrors = setErrors;exports.
+	
+	
+	
+	
+	
+	clearErrors = clearErrors;function setErrors(state, action) {var newState = Object.assign({}, state, { errors: action.errors });return newState;}function clearErrors(state, action) {
+	  var newState = Object.assign({}, state, { errors: [] });
+	
+	  return newState;
 	}
 
 /***/ }
