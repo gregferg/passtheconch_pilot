@@ -36566,7 +36566,7 @@
 	
 	          _react2.default.createElement('div', { className: 'navbar-links' },
 	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/');} }, _react2.default.createElement('p', null, 'Home')),
-	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigatePlay }, _react2.default.createElement('p', null, 'Play')),
+	            _react2.default.createElement('div', { className: 'navbar-link', onClick: this.navigatePlay() }, _react2.default.createElement('p', null, 'Play')),
 	            _react2.default.createElement('div', { className: 'navbar-link', onClick: function onClick() {_this2.navigate('/about');} }, _react2.default.createElement('p', null, 'About'))))));
 	
 	
@@ -37028,7 +37028,7 @@
 	          this.renderAddToStoryOrOtherTurn(),
 	
 	          this.props.story.otherUserLeft ? _react2.default.createElement('p', { className: 'story-other-user-left animate-fade-and-slide1' }, 'Other User left..') : _react2.default.createElement('p', null),
-	          this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' }))));
+	          this.props.story.id ? _react2.default.createElement('p', null) : _react2.default.createElement(_beginNewStory2.default, { startNavigating: this.props.startNavigating, buttonTitle: 'Make another story?', className: 'story animate-fade-and-slide1' }))));
 	
 	
 	

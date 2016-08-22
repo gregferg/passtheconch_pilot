@@ -71,7 +71,7 @@ export const Story = React.createClass({
           {this.renderAddToStoryOrOtherTurn()}
 
           {this.props.story.otherUserLeft ? <p className="story-other-user-left animate-fade-and-slide1">Other User left..</p> : <p></p> }
-          {this.props.story.id ? <p></p> : <BeginNewStory buttonTitle="Make another story?" className="story animate-fade-and-slide1"/>}
+          {this.props.story.id ? <p></p> : <BeginNewStory startNavigating={this.props.startNavigating} buttonTitle="Make another story?" className="story animate-fade-and-slide1"/>}
         </div>
       </div>
     );
