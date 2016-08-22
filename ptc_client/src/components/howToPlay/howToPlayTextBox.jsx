@@ -26,6 +26,7 @@ export default React.createClass({
   },
   componentWillUnmount: function () {
     clearTimeout(timeout);
+    textToRender = "";
   },
   renderTyping: function() {
     if (!textToRender) {

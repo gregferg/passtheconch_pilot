@@ -8,8 +8,12 @@ require('../../stylesheets/beginNewStory.css.scss');
 
 export const BeginNewStory = React.createClass({
   handleClick: function() {
-    hashHistory.push('/searching');
+    this.props.startNavigating();
     this.props.createStoryRequest(this.props.user)
+
+    setTimeout(() => {
+      hashHistory.push('/searching');
+    },800)
   },
   render: function() {
     return (

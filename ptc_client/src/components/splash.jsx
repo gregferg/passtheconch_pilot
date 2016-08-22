@@ -9,6 +9,13 @@ import {hashHistory} from 'react-router';
 require('../stylesheets/splash.css.scss')
 
 export const Splash = React.createClass({
+  navigateHowToPlay: function() {
+    this.props.startNavigating();
+
+    setTimeout(() => {
+      hashHistory.push('/howtoplay');
+    }, 800);
+  },
 
   render: function() {
     return (
@@ -20,12 +27,12 @@ export const Splash = React.createClass({
           </div>
 
           <div className="splash-buttons animate-fade-and-slide3">
-            <div onClick={() => { hashHistory.push('howtoplay') }} className="splash-how-to-play">
+            <div onClick={() => { this.navigateHowToPlay() }} className="splash-how-to-play">
               How to Play
             </div>
 
             <div className="splash-new-story">
-              <BeginNewStory buttonTitle="Create a Story"/>
+              <BeginNewStory startNavigating={this.props.startNavigating} buttonTitle="Create a Story"/>
             </div>
           </div>
         </div>

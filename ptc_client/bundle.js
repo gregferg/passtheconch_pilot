@@ -36603,8 +36603,12 @@
 	
 	var BeginNewStory = exports.BeginNewStory = _react2.default.createClass({ displayName: 'BeginNewStory',
 	  handleClick: function handleClick() {
-	    _reactRouter.hashHistory.push('/searching');
+	    this.props.startNavigating();
 	    this.props.createStoryRequest(this.props.user);
+	
+	    setTimeout(function () {
+	      _reactRouter.hashHistory.push('/searching');
+	    }, 800);
 	  },
 	  render: function render() {
 	    return (
@@ -36752,8 +36756,15 @@
 	__webpack_require__(329);
 	
 	var Splash = exports.Splash = _react2.default.createClass({ displayName: 'Splash',
+	  navigateHowToPlay: function navigateHowToPlay() {
+	    this.props.startNavigating();
 	
-	  render: function render() {
+	    setTimeout(function () {
+	      _reactRouter.hashHistory.push('/howtoplay');
+	    }, 800);
+	  },
+	
+	  render: function render() {var _this = this;
 	    return (
 	      _react2.default.createElement('div', { className: this.props.generateClassName("splash-container", this.props.isNavigating) },
 	        _react2.default.createElement('div', { className: 'splash' },
@@ -36763,12 +36774,12 @@
 	
 	
 	          _react2.default.createElement('div', { className: 'splash-buttons animate-fade-and-slide3' },
-	            _react2.default.createElement('div', { onClick: function onClick() {_reactRouter.hashHistory.push('howtoplay');}, className: 'splash-how-to-play' }, 'How to Play'),
+	            _react2.default.createElement('div', { onClick: function onClick() {_this.navigateHowToPlay();}, className: 'splash-how-to-play' }, 'How to Play'),
 	
 	
 	
 	            _react2.default.createElement('div', { className: 'splash-new-story' },
-	              _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Create a Story' }))))));
+	              _react2.default.createElement(_beginNewStory2.default, { startNavigating: this.props.startNavigating, buttonTitle: 'Create a Story' }))))));
 	
 	
 	
@@ -37378,6 +37389,23 @@
 	    clearTimeout(timeout);
 	    clearTimeout(this.state.story.timer.timeout);
 	  },
+	  componentDidMount: function componentDidMount() {
+	    var userInput = false;
+	    var requestRecieved = false;
+	
+	    this.setState({
+	      searching: true,
+	      idx: 0,
+	      story: {
+	        turn: false,
+	        sentences: [],
+	        sentenceToAdd: "",
+	        timer: {
+	          timeLeft: 60 } } });
+	
+	
+	
+	  },
 	  nextStep: function nextStep() {var _this = this;
 	    switch (this.state.idx) {
 	      case 0:
@@ -37548,9 +37576,6 @@
 	
 	    }
 	  },
-	  finshedRenderingText: function finshedRenderingText() {
-	
-	  },
 	  render: function render() {
 	    return (
 	      _react2.default.createElement('div', { className: 'how-to-play-container' },
@@ -37610,6 +37635,7 @@
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    clearTimeout(timeout);
+	    textToRender = "";
 	  },
 	  renderTyping: function renderTyping() {var _this2 = this;
 	    if (!textToRender) {

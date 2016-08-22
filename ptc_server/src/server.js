@@ -53,16 +53,15 @@ export function startServer(store) {
 
 
     socket.on('action', (action) => {
-      action.socket = socket;
-      processRequest(store, action);
       console.log("action");
       console.log(action);
+      action.socket = socket;
+      processRequest(store, action);
       console.log("store");
       console.log(store.state);
     });
 
     socket.on('disconnectMe', function (userToDisconnect){
-      //TODO: Make it so that if the user is in the story the story gets deleted and the other user gets a notification, also to remove the story that the user was working on.
       const deleteUserSession = {
         type: 'REMOVE_SESSION',
         user: userToDisconnect.user

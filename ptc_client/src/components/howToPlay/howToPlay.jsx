@@ -58,6 +58,23 @@ export const HowToPlay = React.createClass({
     clearTimeout(timeout);
     clearTimeout(this.state.story.timer.timeout);
   },
+  componentDidMount: function() {
+    var userInput = false;
+    var requestRecieved = false;
+
+    this.setState({
+      searching: true,
+      idx: 0,
+      story: {
+        turn: false,
+        sentences: [],
+        sentenceToAdd: "",
+        timer: {
+          timeLeft: 60
+        }
+      }
+    });
+  },
   nextStep: function() {
     switch (this.state.idx) {
       case 0:
@@ -227,9 +244,6 @@ export const HowToPlay = React.createClass({
         </div>
       );
     }
-  },
-  finshedRenderingText: function() {
-
   },
   render: function() {
     return (
