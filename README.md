@@ -8,7 +8,7 @@ Pass the Conch was created as a short, turn based game to help people practice c
 
 
 ## Features & Implementation
-Listed below are the main features of my web application.
+
 
 ### How to play
 
