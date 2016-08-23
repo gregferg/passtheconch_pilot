@@ -44,3 +44,7 @@ Make it so users can choose the limit of sentences, the time one has to submit t
 
 ### Make an actual backend/product
 Roll out a backend with a db, so that users can login and save stories, have friends, and the ability to create games with only their friends. Also would allow for people to browse popular stories that people have written and ultimately become more of a platform for joint creative story telling.
+
+
+####Side note about file structure
+For practice of thinking about and developing micro services, I made two different servers. One to serve the client the html, css, and javascript, and one to handle all the web sockets connections and communications. This doesn't really make sense for the current application and it currently isn't deployed as such, but it was fun practice to think about and develop around.
