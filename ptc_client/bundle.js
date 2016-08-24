@@ -36881,13 +36881,13 @@
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {var _this = this;
-	    if (this.checkIfPlayerIsActuallySearching()) {
-	      clearTimeout(animateTimeout);
+	    if (this.props.story.id) {
+	      _reactRouter.hashHistory.push('/story');
 	      return;
 	    }
 	
-	    if (this.props.story.id) {
-	      _reactRouter.hashHistory.push('/story');
+	    if (this.checkIfPlayerIsActuallySearching()) {
+	      clearTimeout(animateTimeout);
 	      return;
 	    }
 	

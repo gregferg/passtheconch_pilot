@@ -33,13 +33,13 @@ export const Search = React.createClass({
     }
   },
   componentDidMount: function() {
-    if (this.checkIfPlayerIsActuallySearching()) {
-      clearTimeout(animateTimeout);
+    if (this.props.story.id) {
+      hashHistory.push('/story');
       return;
     }
 
-    if (this.props.story.id) {
-      hashHistory.push('/story');
+        if (this.checkIfPlayerIsActuallySearching()) {
+      clearTimeout(animateTimeout);
       return;
     }
 
