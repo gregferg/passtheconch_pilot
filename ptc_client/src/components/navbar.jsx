@@ -41,7 +41,7 @@ export const NavBar = React.createClass({
 
           <div className="navbar-links">
             <div className="navbar-link" onClick={() => {this.navigate('/')}}><p>Home</p></div>
-            <div className="navbar-link" onClick={this.navigatePlay()}><p>Play</p></div>
+            <div className="navbar-link" onClick={() => {this.navigatePlay()}}><p>Play</p></div>
             <div className="navbar-link" onClick={() => {this.navigate('/about')}}><p>About</p></div>
           </div>
         </div>
