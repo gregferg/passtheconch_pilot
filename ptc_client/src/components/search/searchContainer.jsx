@@ -38,7 +38,7 @@ export const Search = React.createClass({
       return;
     }
 
-        if (this.checkIfPlayerIsActuallySearching()) {
+    if (this.checkIfPlayerIsActuallySearching()) {
       clearTimeout(animateTimeout);
       return;
     }
@@ -61,7 +61,6 @@ export const Search = React.createClass({
     }
   },
   checkIfPlayerIsActuallySearching: function() {
-    // If you aren't searching, you shouldn't be on this page.
     if (this.props.search === false) {
       clearTimeout(animateTimeout);
       hashHistory.push('/');

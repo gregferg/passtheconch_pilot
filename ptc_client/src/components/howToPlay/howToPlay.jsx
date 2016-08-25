@@ -6,29 +6,33 @@ import NotYourTurn from '../story/notYourTurn';
 
 
 // "Welcome! First you'll have to find someone to play with..."
-// "Ahh looks like we've found someone!"
+// "Ahh, looks like we've found someone!"
 //
 // "Your story begins with a country, a good longshoreman, and a heartfelt film shoot"
 //
 // "Every story begins with a randomly generated prompt, the one for this story is displayed right above!"
 // "Right now it's our partner's turn, we're just waiting for him to start the first sentence"
 //
-// ["This was Gregory's first romanitic comedy film shoot, but already he felt the magic start to happen."]
+// ["This was Gregory's first romantic comedy film shoot, but he already felt the magic start to happen."]
 //
 //
-// "Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!"
+// "Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence!
+// When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!"
 // "Nice, now we wait again for our partner to add their sentence to our story."
 //
 // ["Similar to how Harrison Ford was found, Gregory had been a longshoreman when he was found."]
 //
-// "Your turn again! Go ahead and type your response! You've probably noticed that the number of sentences left has gone down, each story currently has a maxium of 10 sentences"
+// "Your turn again! Go ahead and type your response! You've probably noticed that the number of sentences
+// left has gone down, each story currently has a maxium of 10 sentences"
 // "Again we wait! Though probably not for long since our partner seems to be really fast at typing..."
 //
-// ["They were filming in the country, a scence that suited Gregory and his long golden locks."]
+// ["They were filming in the country, a scene that suited Gregory and his long golden locks."]
 //
-// 'Can you tell that you\'re playing our incredible "AI"? Yeah, we know, it\'s prettyyyyy sweet. Anyways since you\'re playing just playing a bot, you can either finish this story, or click play to make a story with a random person on the internet!'
+// 'Can you tell that you\'re playing our incredible "AI"? Yeah, we know, it\'s prettyyyyy sweet.
+// Anyways, since you\'re just playing a bot, you can either finish this story, or click play
+// to make a story with a random person on the internet!'
 //
-// ["Gregoy, like I, has never loved before. He, like I, has always wondered what is love like?"]
+// ["Gregory, like I, has never loved before. He, like I, has always wondered what is love like?"]
 //
 // ["What, for instance, are the rules of love? Can robot........ love?"]
 
