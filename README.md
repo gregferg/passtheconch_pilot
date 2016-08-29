@@ -7,7 +7,7 @@
 ![splash_picture](./docs/PassTheConch.png)
 
 
-Pass the Conch was created as a short, turn based game to help people practice creative writing and joint storytelling. It is meant as a way to warm up before writing, to postpone boredom, other whatever other use you can find for it! None of the stories are saved, so if you like what you write, make sure to copy paste it to another application before starting another story otherwise the story will be gone...for...ever
+Pass the Conch was created as a short, turn-based game to help people practice creative writing and joint storytelling. It is meant as a way to warm up before writing, to postpone boredom, or however else you would like to use it. None of the stories are saved, so if you like what you write, make sure to copy & paste it to another application before starting your next story. Otherwise, it will be gone forever!
 
 
 ## Features & Implementation
@@ -17,7 +17,7 @@ Pass the Conch was created as a short, turn based game to help people practice c
 
 ![how_to_play](./docs/HowToPlay.gif)
 
-Pass the Conch teaches you how to play the best way that one can teach another how to play something. By actually playing it. The user is put into a game experience so similar to what they would be experiencing, that I literally used the same react components that are rendered when playing the real game. Of course when learning how to play, one shouldn't be messing up other user's experiences, so I passed fake states into the components that would update through timeouts (to simulate the other player) and actions preformed by the user. I gave the fake player a dialogue to preform with how-to-play text about what's it like to be an AI, hoping it would be entertaining and give more character to Pass The Conch.
+Pass the Conch teaches you how-to-play the best way, by actually playing it! The user is put into a game experience so similar to what they would be experiencing, that it utilizes the same react components that are rendered when playing the real game. Of course when learning how to play, one shouldn't be messing up other user's experiences, so fake states are passed into the components that through timeouts (to simulate the other player's input) and fake actions preformed by the user. I gave the pretend player a dialogue to preform with how-to-play text about what's it like to be an AI, hoping it would be entertaining and give more character to Pass The Conch.
 
 ### Play the game!
 
@@ -34,7 +34,7 @@ Pass the Conch is an extremely simple and focused product, and as such, it's des
 
 
 ## Future Directions for the Project
-Features I plan to add to the project when I have more time.
+Features to add to the project when I have more time.
 
 ### AI
 Nobody else online? Why not play with an AI! I think it would be a fun/interesting feature to develop as well. Also if it's crazy enough, people might just want to play with it for fun as it could give interesting results. Also could be implemented with the how to play to make the how to play more realistic.
