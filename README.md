@@ -4,6 +4,9 @@
 
 [heroku]: https://passtheconch.herokuapp.com/
 
+![splash_picture](./docs/PassTheConch.png)
+
+
 Pass the Conch was created as a short, turn based game to help people practice creative writing and joint storytelling. It is meant as a way to warm up before writing, to postpone boredom, other whatever other use you can find for it! None of the stories are saved, so if you like what you write, make sure to copy paste it to another application before starting another story otherwise the story will be gone...for...ever
 
 
@@ -12,22 +15,19 @@ Pass the Conch was created as a short, turn based game to help people practice c
 
 ### How to play
 
-GIF COMING!
-<!-- ![photo_layout](./docs/production_readme_photos/photo_layout.png) -->
+![how_to_play](./docs/HowToPlay.gif)
 
 Pass the Conch teaches you how to play the best way that one can teach another how to play something. By actually playing it. The user is put into a game experience so similar to what they would be experiencing, that I literally used the same react components that are rendered when playing the real game. Of course when learning how to play, one shouldn't be messing up other user's experiences, so I passed fake states into the components that would update through timeouts (to simulate the other player) and actions preformed by the user. I gave the fake player a dialogue to preform with how-to-play text about what's it like to be an AI, hoping it would be entertaining and give more character to Pass The Conch.
 
 ### Play the game!
 
-GIF COMING!
-<!-- ![photo_layout](./docs/production_readme_photos/photo_layout.png) -->
+![playing](./docs/Playing.gif)
 
 Pass the Conch uses web sockets to allow one user to communicate to another in real time. The clients connect through the server as opposed of client-to-client allowing for validations of client actions, and a possibility to easily expand for more features and validations at the trade off of an increase on the server load. Currently games are given a randomly generated prompt, have a 10 sentence limit, 60 seconds to come up with, and type, the next sentence of the story, and 100 characters of which to do so.
 
 ### Design
 
-GIF COMING!
-<!-- ![photo_layout](./docs/production_readme_photos/photo_layout.png) -->
+![splash](./docs/Splash.gif)
 
 Pass the Conch is an extremely simple and focused product, and as such, it's design is created to reflect that purpose. All the other elements on the page serve a particular single purpose and fulfill that purpose when interacted with. Everything also has a very simple transition which clearly conveys to the user that it has received action and is processing their request.  And yes, while the white text on a black background is bold and pretentious, it's also very functional. This is a text based game and if one was to play for a significant amount of time, their eyes would be thankful that it's not the other way around.
 

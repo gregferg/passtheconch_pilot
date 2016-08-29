@@ -6,6 +6,8 @@ var textToRender = "";
 var idx = 0;
 var timeout;
 
+var finishedRenderingTextTimeout;
+
 function generateRandomTime() {
   return Math.floor(Math.random() * 50 + 5);
 }
@@ -34,7 +36,8 @@ export default React.createClass({
     }
 
     if (idx === textToRender.length + 1 && textToRender) {
-      setTimeout(() => {this.props.finshedRenderingText()}, 2000)
+      clearTimeout(finishedRenderingTextTimeout);
+      finishedRenderingTextTimeout = setTimeout(() => {this.props.finshedRenderingText()}, 2000)
     } else {
 
       this.setState({ text: textToRender.slice(0, idx)})

@@ -37376,43 +37376,7 @@
 	var _beginNewStory = __webpack_require__(328);var _beginNewStory2 = _interopRequireDefault(_beginNewStory);
 	var _addToStory = __webpack_require__(341);var _addToStory2 = _interopRequireDefault(_addToStory);
 	var _notYourTurn = __webpack_require__(346);var _notYourTurn2 = _interopRequireDefault(_notYourTurn);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	var _searchContainer = __webpack_require__(336);
-	
 	var _howToPlayTextBox = __webpack_require__(350);var _howToPlayTextBox2 = _interopRequireDefault(_howToPlayTextBox);
 	
 	var _reactRedux = __webpack_require__(253);
@@ -37421,37 +37385,41 @@
 	var _reactRouter = __webpack_require__(176);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 	
 	
-	__webpack_require__(351); // "Welcome! First you'll have to find someone to play with..."
-	// "Ahh, looks like we've found someone!"
-	//
-	// "Your story begins with a country, a good longshoreman, and a heartfelt film shoot"
-	//
-	// "Every story begins with a randomly generated prompt, the one for this story is displayed right above!"
-	// "Right now it's our partner's turn, we're just waiting for him to start the first sentence"
-	//
-	// ["This was Gregory's first romantic comedy film shoot, but he already felt the magic start to happen."]
-	//
-	//
-	// "Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence!
-	// When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!"
-	// "Nice, now we wait again for our partner to add their sentence to our story."
-	//
-	// ["Similar to how Harrison Ford was found, Gregory had been a longshoreman when he was found."]
-	//
-	// "Your turn again! Go ahead and type your response! You've probably noticed that the number of sentences
-	// left has gone down, each story currently has a maxium of 10 sentences"
-	// "Again we wait! Though probably not for long since our partner seems to be really fast at typing..."
-	//
-	// ["They were filming in the country, a scene that suited Gregory and his long golden locks."]
-	//
-	// 'Can you tell that you\'re playing our incredible "AI"? Yeah, we know, it\'s prettyyyyy sweet.
-	// Anyways, since you\'re just playing a bot, you can either finish this story, or click play
-	// to make a story with a random person on the internet!'
-	//
-	// ["Gregory, like I, has never loved before. He, like I, has always wondered what is love like?"]
-	//
-	// ["What, for instance, are the rules of love? Can robot........ love?"]
-	var howToPlayText = ["Welcome! First you'll have to find someone to play with...", "Ahh looks like we've found someone!", "Every story begins with a randomly generated prompt, the one for this story is displayed right above!", "Right now it's our partner's turn, we're just waiting for him to start the first sentence", "Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!", "Nice, now we wait again for our partner to add their sentence to our story.", "Your turn again! Go ahead and type your response! You've probably noticed that the number of sentences left has gone down, each story currently has a maxium of 10 sentences", "Again we wait! Though probably not for long since our partner seems to be really fast at typing...", "Can you tell that you're playing our incredible AI? Yeah, we know, it's prettyyyyy sweet. Anyways since you're playing just playing a bot, you can either finish this story, or click play to make a story with a random person on the internet!"];var _userInput = false;var requestRecieved = false;var timeout;var HowToPlay = exports.HowToPlay = _react2.default.createClass({ displayName: 'HowToPlay', getInitialState: function getInitialState() {return { searching: true, idx: 0, story: { turn: false, sentences: [], sentenceToAdd: "", timer: { timeLeft: 60 } } };
+	__webpack_require__(351);
+	
+	var howToPlayText = [
+	"Welcome! First you'll have to find someone to play with...",
+	"Ahh looks like we've found someone!",
+	"Every story begins with a randomly generated prompt, the one for this story is displayed right above!",
+	"Right now it's our partner's turn, we're just waiting for him to start the first sentence",
+	"Ahh they responded, now it's your turn. You have 60 seconds to come up with the next sentence! When you're done typing press enter, or click 'Pass the Conch' to add your sentence to the story! Go ahead, give it a go!",
+	"Nice, now we wait again for our partner to add their sentence to our story.",
+	"Your turn again! Go ahead and type your response! You've probably noticed that the number of sentences left has gone down, each story currently has a maxium of 10 sentences",
+	"Again we wait! Though probably not for long since our partner seems to be really fast at typing...",
+	"Can you tell that you're playing our incredible AI? Yeah, we know, it's prettyyyyy sweet. Anyways since you're playing just playing a bot, you can either finish this story, or click play to make a story with a random person on the internet!"];
+	
+	
+	var robotScript = [];
+	
+	
+	
+	var _userInput = false;
+	var requestRecieved = false;
+	
+	var timeout;
+	
+	var HowToPlay = exports.HowToPlay = _react2.default.createClass({ displayName: 'HowToPlay',
+	  getInitialState: function getInitialState() {
+	    return {
+	      searching: true,
+	      idx: 0,
+	      story: {
+	        turn: false,
+	        sentences: [],
+	        sentenceToAdd: "",
+	        timer: {
+	          timeLeft: 60 } } };
+	
 	
 	
 	  },
@@ -37501,7 +37469,7 @@
 	
 	        timeout = setTimeout(function () {
 	          var story = Object.assign({}, _this.state.story);
-	          story.sentences = ["This was Gregory's first romanitic comedy film shoot, but already he felt the magic start to happen."];
+	          story.sentences = ["This was Gregory's first romanitic comedy film shoot, but he already felt the magic start to happen."];
 	          story.turn = true;
 	          story.timer.timeLeft = 60;
 	          _this.setState({ story: story, idx: 4, turnIsChanging: false });
@@ -37521,7 +37489,7 @@
 	            var story = _this.state.story;
 	            story.turn = true;
 	            story.timer.timeLeft = 60;
-	            story.sentences.push("Similar to how Harrison Ford was found, Gregory had been a longshoreman when he career changed.");
+	            story.sentences.push("Similar to how Harrison Ford was found, Gregory had been a longshoreman when his career changed.");
 	
 	            _this.setState({
 	              turnIsChanging: false,
@@ -37555,7 +37523,7 @@
 	            var story = _this.state.story;
 	            story.turn = true;
 	            story.timer.timeLeft = 60;
-	            story.sentences.push("They were filming in the country, a scence that suited Gregory and his long golden locks.");
+	            story.sentences.push("They were filming in the country, a scene that suited Gregory and his long golden locks.");
 	
 	            _this.setState({
 	              turnIsChanging: false,
@@ -37621,7 +37589,7 @@
 	            var story = _this.state.story;
 	            story.turn = true;
 	            story.timer.timeLeft = 60;
-	            story.sentences.push("What, for instance, are the rules of love? Can robot........ love?");
+	            story.sentences.push("What is love? Can robot........ love?");
 	
 	            _this.setState({
 	              turnIsChanging: false,
@@ -37713,12 +37681,14 @@
 	
 	
 	    } else {
+	      var textToDisplay = this.state.idx < 7 ? this.state.idx : 8;
+	
 	      return (
 	        _react2.default.createElement('div', { className: 'how-to-play-story-container' },
 	          _react2.default.createElement('h1', { className: 'animate-fade-and-slide1' }, 'Story'),
 	          _react2.default.createElement('p', { className: 'animate-fade-and-slide2' }, 'Your story begins with a country, a good longshoreman, and a heartfelt film shoot'),
 	
-	          _react2.default.createElement(_howToPlayTextBox2.default, { finshedRenderingText: this.nextStep, textToRender: howToPlayText[this.state.idx] }),
+	          _react2.default.createElement(_howToPlayTextBox2.default, { finshedRenderingText: this.nextStep, textToRender: howToPlayText[textToDisplay] }),
 	
 	          _react2.default.createElement(_currentStory2.default, { sentences: this.state.story.sentences }),
 	          this.state.story.turn ?
@@ -37742,7 +37712,7 @@
 	
 	
 	
-	          this.state.idx > 8 ? _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Make a story!', className: 'story animate-fade-and-slide1' }) : _react2.default.createElement('p', null)));
+	          this.state.idx > 7 ? _react2.default.createElement(_beginNewStory2.default, { buttonTitle: 'Make a story!', className: 'story animate-fade-and-slide1' }) : _react2.default.createElement('p', null)));
 	
 	
 	    }
@@ -37786,6 +37756,8 @@
 	var idx = 0;
 	var timeout;
 	
+	var finishedRenderingTextTimeout;
+	
 	function generateRandomTime() {
 	  return Math.floor(Math.random() * 50 + 5);
 	}exports.default =
@@ -37814,7 +37786,8 @@
 	    }
 	
 	    if (idx === textToRender.length + 1 && textToRender) {
-	      setTimeout(function () {_this2.props.finshedRenderingText();}, 2000);
+	      clearTimeout(finishedRenderingTextTimeout);
+	      finishedRenderingTextTimeout = setTimeout(function () {_this2.props.finshedRenderingText();}, 2000);
 	    } else {
 	
 	      this.setState({ text: textToRender.slice(0, idx) });
