@@ -28603,8 +28603,6 @@
 	
 	
 	reducer;var _session = __webpack_require__(261);var _errors = __webpack_require__(262);var _story = __webpack_require__(263);var DEFAULT_STATE = { user: null, story: { id: null, sentences: [], sentenceToAdd: "", prompt: "", turn: null, finished: false, timer: { timeLeft: 65, timeout: null } }, errors: [], searching: false };function reducer() {var state = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_STATE : arguments[0];var action = arguments[1];
-	  console.log(action);
-	
 	  switch (action.type) {
 	    case 'SET_SESSION':
 	      return (0, _session.setSession)(state, action);

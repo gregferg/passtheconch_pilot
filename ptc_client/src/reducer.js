@@ -30,8 +30,6 @@ const DEFAULT_STATE = {
 }
 
 export default function reducer(state = DEFAULT_STATE, action) {
-  console.log(action);
-
   switch (action.type) {
     case 'SET_SESSION':
       return setSession(state, action);
